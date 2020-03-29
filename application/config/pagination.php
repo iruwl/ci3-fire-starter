@@ -4,7 +4,7 @@ $config['num_links']            = 3;        // number of links before and after 
 $config['page_query_string']    = TRUE;     // using query string instead of URI segments
 $config['query_string_segment'] = "offset"; // change default 'per_page' query string to 'offset'
 
-$config['full_tag_open']        = '<ul class="pagination">';
+$config['full_tag_open']        = '<ul class="pagination pagination-sm">';
 $config['full_tag_close']       = '</ul>';
 
 $config['first_link']           = '<span class="glyphicon glyphicon-fast-backward"></span>';

@@ -1,5 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<div class="clearfix"></div>
+<p>In Progress Task</p>
+<p>In Progress Task</p>
+<p>Pending Task</p>
+<p>Canceled Task</p>
+<p>Customer Issue</p>
+
+<!--
 <?php // display welcome message from admin settings ?>
 <?php echo $welcome_message; ?>
 
@@ -47,3 +55,4 @@
 <div class="clearfix"><hr /></div>
 
 <p><a href="<?php echo base_url('sitemap.xml'); ?>"><?php echo lang('welcome content click_here'); ?></a>: <?php echo lang('welcome content sitemap'); ?></p>
+-->

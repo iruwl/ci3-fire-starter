@@ -108,8 +108,7 @@ class User extends Public_Controller {
         // validators
         $this->form_validation->set_error_delimiters($this->config->item('error_delimeter_left'), $this->config->item('error_delimeter_right'));
         $this->form_validation->set_rules('username', lang('users input username'), 'required|trim|min_length[5]|max_length[30]|callback__check_username');
-        $this->form_validation->set_rules('first_name', lang('users input first_name'), 'required|trim|min_length[2]|max_length[32]');
-        $this->form_validation->set_rules('last_name', lang('users input last_name'), 'required|trim|min_length[2]|max_length[32]');
+        $this->form_validation->set_rules('name', lang('users input name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[256]|valid_email|callback__check_email');
         $this->form_validation->set_rules('language', lang('users input language'), 'required|trim');
         $this->form_validation->set_rules('password', lang('users input password'), 'required|trim|min_length[5]');
@@ -140,14 +139,14 @@ class User extends Public_Controller {
                 $this->email->from($this->settings->site_email, $this->settings->site_name);
                 $this->email->reply_to($this->settings->site_email, $this->settings->site_name);
                 $this->email->to($this->input->post('email', TRUE));
-                $this->email->subject(sprintf(lang('users msg email_new_account_title'), $this->input->post('first_name', TRUE)));
+                $this->email->subject(sprintf(lang('users msg email_new_account_title'), $this->input->post('name', TRUE)));
                 $this->email->message($email_msg);
                 $this->email->send();
                 #echo $this->email->print_debugger();
 
                 $this->session->language = $this->input->post('language');
                 $this->lang->load('users', $this->user['language']);
-                $this->session->set_flashdata('message', sprintf(lang('users msg register_success'), $this->input->post('first_name', TRUE)));
+                $this->session->set_flashdata('message', sprintf(lang('users msg register_success'), $this->input->post('name', TRUE)));
             }
             else
             {
@@ -233,12 +232,12 @@ class User extends Public_Controller {
                 $this->email->from($this->settings->site_email, $this->settings->site_name);
                 $this->email->reply_to($this->settings->site_email, $this->settings->site_name);
                 $this->email->to($this->input->post('email', TRUE));
-                $this->email->subject(sprintf(lang('users msg email_password_reset_title'), $results['first_name']));
+                $this->email->subject(sprintf(lang('users msg email_password_reset_title'), $results['name']));
                 $this->email->message($email_msg);
                 $this->email->send();
                 #echo $this->email->print_debugger();
 
-                $this->session->set_flashdata('message', sprintf(lang('users msg password_reset_success'), $results['first_name']));
+                $this->session->set_flashdata('message', sprintf(lang('users msg password_reset_success'), $results['name']));
             }
             else
             {

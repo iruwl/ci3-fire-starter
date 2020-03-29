@@ -1,10 +1,10 @@
 $(document).ready(function() {
 
     /**
-     * Delete a user
+     * Delete
      */
     $('.btn-delete-user').click(function() {
-        window.location.href = "/admin/users/delete/" + $(this).attr('data-id');
+        window.location.href = config.baseURL + "admin/master/users/delete/" + $(this).attr('data-id');
     });
 
 });

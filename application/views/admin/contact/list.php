@@ -52,9 +52,6 @@
                     <th<?php echo ((isset($filters['email'])) ? ' class="has-success"' : ''); ?>>
                         <?php echo form_input(array('name'=>'email', 'id'=>'email', 'class'=>'form-control input-sm', 'placeholder'=>lang('contact input email'), 'value'=>set_value('email', ((isset($filters['email'])) ? $filters['email'] : '')))); ?>
                     </th>
-                    <th<?php echo ((isset($filters['last_name'])) ? ' class="has-success"' : ''); ?>>
-                        <?php echo form_input(array('name'=>'title', 'id'=>'title', 'class'=>'form-control input-sm', 'placeholder'=>lang('contact input title'), 'value'=>set_value('title', ((isset($filters['title'])) ? $filters['title'] : '')))); ?>
-                    </th>
                     <th<?php echo ((isset($filters['created'])) ? ' class="has-success"' : ''); ?>>
                         <div class="input-group date" data-date="<?php echo date('m-d-Y'); ?>" data-date-format="mm-dd-yyyy">
                             <?php echo form_input(array('name'=>'created', 'id'=>'created', 'class'=>'form-control input-sm', 'readonly'=>'readonly', 'placeholder'=>lang('contact input created'), 'value'=>set_value('created', ((isset($filters['created'])) ? $filters['created'] : '')))); ?>

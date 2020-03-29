@@ -1,28 +1,45 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed');?>
 
-<div class="row">
-    <div class="col-lg-12">
-        <h2 class="text-center"><?php echo lang('core text oops'); ?></h2>
-        <p class="text-center"><?php echo lang('core text 404_error'); ?></p>
-        <pre class="error-404">
-    ) )        /\
-   =====      /  \
-  _|___|_____/ __ \____________
- |::::::::::/ |  | \:::::::::::|
- |:::::::::/  ====  \::::::::::|
- |::::::::/__________\:::::::::|
- |_________|  ____  |__________|
-  | ______ | / || \ | _______ |
-  ||  |   || ====== ||   |   ||
-  ||--+---|| |    | ||---+---||
-  ||__|___|| |   o| ||___|___||
-  |========| |____| |=========|
- (^^-^^^^^-|________|-^^^--^^^)
- (,, , ,, ,/________\,,,, ,, ,)
-','',,,,' /__________\,,,',',;;
-        </pre>
-        <p class="text-center">
-            <a type="button" class="btn btn-primary btn-lg" href="<?php echo base_url(); ?>"><?php echo lang('core button return_home'); ?></a>
-        </p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+  <title>404 - Page not found!</title>
+
+  <!-- Google font -->
+  <link href="//fonts.googleapis.com/css?family=Montserrat:500" rel="stylesheet">
+  <link href="//fonts.googleapis.com/css?family=Titillium+Web:700,900" rel="stylesheet">
+
+  <!-- Custom stlylesheet -->
+  <link type="text/css" rel="stylesheet" href="<?php echo base_url('assets/themes/core/css/404-style.css'); ?>" />
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <div id="notfound">
+    <div class="notfound">
+      <div class="notfound-404">
+        <h1>404</h1>
+      </div>
+      <h2>Oops! This Page Could Not Be Found</h2>
+      <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>
+      <a href="<?php echo $this->session->userdata('logged_in') ? base_url('admin') : base_url(); ?>">Go To Homepage</a>
     </div>
-</div>
+  </div>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

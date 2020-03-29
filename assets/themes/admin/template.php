@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Admin Template
  */
@@ -8,19 +8,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=<?php echo $this->settings->site_version; ?>">
-	<link rel="icon" type="image/x-icon" href="/favicon.ico?v=<?php echo $this->settings->site_version; ?>">
-    <title><?php echo $page_title; ?> - <?php echo $this->settings->site_name; ?></title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url(); ?>/favicon.ico?v=<?php echo $this->settings->site_version; ?>">
+    <link rel="icon" type="image/x-icon" href="<?php echo base_url(); ?>/favicon.ico?v=<?php echo $this->settings->site_version; ?>">
+    <title><?php echo $this->settings->site_name; ?> | <?php echo $page_title; ?></title>
 
     <?php // CSS files ?>
-    <?php if (isset($css_files) && is_array($css_files)) : ?>
-        <?php foreach ($css_files as $css) : ?>
-            <?php if ( ! is_null($css)) : ?>
-                <?php $separator = (strstr($css, '?')) ? '&' : '?'; ?>
+    <?php if (isset($css_files) && is_array($css_files)): ?>
+        <?php foreach ($css_files as $css): ?>
+            <?php if (!is_null($css)): ?>
+                <?php $separator = (strstr($css, '?')) ? '&' : '?';?>
                 <link rel="stylesheet" href="<?php echo $css; ?><?php echo $separator; ?>v=<?php echo $this->settings->site_version; ?>"><?php echo "\n"; ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
+            <?php endif;?>
+        <?php endforeach;?>
+    <?php endif;?>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
 
     <?php // Fixed navbar ?>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only"><?php echo lang('core button toggle_nav'); ?></span>
@@ -40,17 +40,36 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/"><?php echo $this->settings->site_name; ?></a>
+                <a class="navbar-brand" href="<?php echo base_url('/admin'); ?>"><?php echo $this->settings->site_name; ?></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <?php // Nav bar left ?>
                 <ul class="nav navbar-nav">
-                    <li class="<?php echo (uri_string() == 'admin' OR uri_string() == 'admin/dashboard') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin'); ?>"><?php echo lang('admin button dashboard'); ?></a></li>
+                    <li class="<?php echo (uri_string() == 'admin' or uri_string() == 'admin/dashboard') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin'); ?>"><?php echo lang('admin button dashboard'); ?></a></li>
+<!--
                     <li class="dropdown<?php echo (strstr(uri_string(), 'admin/users')) ? ' active' : ''; ?>">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo lang('admin button users'); ?> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li class="<?php echo (uri_string() == 'admin/users') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/users'); ?>"><?php echo lang('admin button users_list'); ?></a></li>
                             <li class="<?php echo (uri_string() == 'admin/users/add') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/users/add'); ?>"><?php echo lang('admin button users_add'); ?></a></li>
+                        </ul>
+                    </li>
+-->
+                    <li class="dropdown<?php echo (strstr(uri_string(), 'admin/master')) ? ' active' : ''; ?>">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo lang('admin button master'); ?> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="<?php echo (uri_string() == 'admin/master/users') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/users'); ?>"><?php echo lang('admin button master_users'); ?></a></li>
+                            <li class="<?php echo (uri_string() == 'admin/master/customers') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/customers'); ?>"><?php echo lang('admin button master_customers'); ?></a></li>
+                            <li class="<?php echo (uri_string() == 'admin/master/contacts') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/contacts'); ?>"><?php echo lang('admin button master_contacts'); ?></a></li>
+                            <!--<li class="<?php echo (uri_string() == 'admin/master/projects') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/projects'); ?>"><?php echo lang('admin button master_projects'); ?></a></li> -->
+                            <li class="<?php echo (uri_string() == 'admin/master/applications') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/applications'); ?>"><?php echo lang('admin button master_applications'); ?></a></li>
+                            <li class="<?php echo (uri_string() == 'admin/master/servers') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/servers'); ?>"><?php echo lang('admin button master_servers'); ?></a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown<?php echo (strstr(uri_string(), 'admin/work_packages')) ? ' active' : ''; ?>">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo lang('admin button work_packages'); ?> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="<?php echo (uri_string() == 'admin/master/projects') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/projects'); ?>"><?php echo lang('admin button master_projects'); ?></a></li>
                         </ul>
                     </li>
                     <li class="<?php echo (uri_string() == 'admin/contact') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/contact'); ?>"><?php echo lang('admin button messages'); ?></a></li>
@@ -66,16 +85,16 @@
                                 <span class="caret"></span>
                             </button>
                             <ul id="session-language-dropdown" class="dropdown-menu" role="menu" aria-labelledby="session-language">
-                                <?php foreach ($this->languages as $key=>$name) : ?>
+                                <?php foreach ($this->languages as $key => $name): ?>
                                     <li>
                                         <a href="#" rel="<?php echo $key; ?>">
-                                            <?php if ($key == $this->session->language) : ?>
+                                            <?php if ($key == $this->session->language): ?>
                                                 <i class="fa fa-check selected-session-language"></i>
-                                            <?php endif; ?>
+                                            <?php endif;?>
                                             <?php echo $name; ?>
                                         </a>
                                     </li>
-                                <?php endforeach; ?>
+                                <?php endforeach;?>
                             </ul>
                         </span>
                     </li>
@@ -85,35 +104,33 @@
     </nav>
 
     <?php // Main body ?>
-    <div class="container theme-showcase" role="main">
+    <div class="container-fluid theme-showcase" role="main">
 
         <?php // Page title ?>
-        <div class="page-header">
-            <h1><?php echo $page_header; ?></h1>
-        </div>
+        <div class="page-header"></div>
 
         <?php // System messages ?>
-        <?php if ($this->session->flashdata('message')) : ?>
+        <?php if ($this->session->flashdata('message')): ?>
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <?php echo $this->session->flashdata('message'); ?>
             </div>
-        <?php elseif ($this->session->flashdata('error')) : ?>
+        <?php elseif ($this->session->flashdata('error')): ?>
             <div class="alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <?php echo $this->session->flashdata('error'); ?>
             </div>
-        <?php elseif (validation_errors()) : ?>
+        <?php elseif (validation_errors()): ?>
             <div class="alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <?php echo validation_errors(); ?>
             </div>
-        <?php elseif ($this->error) : ?>
+        <?php elseif ($this->error): ?>
             <div class="alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <?php echo $this->error; ?>
             </div>
-        <?php endif; ?>
+        <?php endif;?>
 
         <?php // Main content ?>
         <?php echo $content; ?>
@@ -122,34 +139,36 @@
 
     <?php // Footer ?>
     <footer class="sticky-footer">
-        <div class="container">
-            <p class="text-muted">
+        <div class="container-fluid">
+            <p class="text-muted hidden-xs hidden-sm">
                 <?php echo lang('core text page_rendered'); ?>
                 | PHP v<?php echo phpversion(); ?>
                 | MySQL v<?php echo mysqli_get_client_version(); ?>
                 | CodeIgniter v<?php echo CI_VERSION; ?>
                 | <?php echo $this->settings->site_name; ?> v<?php echo $this->settings->site_version; ?>
-                | <a href="http://jasonbaier.github.io/ci3-fire-starter/" target="_blank">Github.com</a>
+            </p>
+            <p class="text-muted hidden-md hidden-lg">
+                <?php echo $this->settings->site_name; ?> v<?php echo $this->settings->site_version; ?>
             </p>
         </div>
     </footer>
 
     <?php // Javascript files ?>
-    <?php if (isset($js_files) && is_array($js_files)) : ?>
-        <?php foreach ($js_files as $js) : ?>
-            <?php if ( ! is_null($js)) : ?>
-                <?php $separator = (strstr($js, '?')) ? '&' : '?'; ?>
+    <?php if (isset($js_files) && is_array($js_files)): ?>
+        <?php foreach ($js_files as $js): ?>
+            <?php if (!is_null($js)): ?>
+                <?php $separator = (strstr($js, '?')) ? '&' : '?';?>
                 <?php echo "\n"; ?><script type="text/javascript" src="<?php echo $js; ?><?php echo $separator; ?>v=<?php echo $this->settings->site_version; ?>"></script><?php echo "\n"; ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
-    <?php if (isset($js_files_i18n) && is_array($js_files_i18n)) : ?>
-        <?php foreach ($js_files_i18n as $js) : ?>
-            <?php if ( ! is_null($js)) : ?>
+            <?php endif;?>
+        <?php endforeach;?>
+    <?php endif;?>
+    <?php if (isset($js_files_i18n) && is_array($js_files_i18n)): ?>
+        <?php foreach ($js_files_i18n as $js): ?>
+            <?php if (!is_null($js)): ?>
                 <?php echo "\n"; ?><script type="text/javascript"><?php echo "\n" . $js . "\n"; ?></script><?php echo "\n"; ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
+            <?php endif;?>
+        <?php endforeach;?>
+    <?php endif;?>
 
 </body>
 </html>

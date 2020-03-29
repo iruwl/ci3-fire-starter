@@ -1,10 +1,10 @@
-<?php	defined('BASEPATH') OR exit('Akses skrip secara langsung tidak diijinkan');
+<?php defined('BASEPATH') or exit('Akses skrip secara langsung tidak diijinkan');
 /**
  * File Bahasa Indonesia - Admin
  */
 
 // Titles
-$lang['admin title admin']                = "Halaman Admin";
+$lang['admin title admin'] = "Halaman Admin";
 
 // Buttons
 $lang['admin button csv_export']          = "Ekspor CSV";
@@ -14,24 +14,32 @@ $lang['admin button edit']                = "Ubah";
 $lang['admin button messages']            = "Pesan";
 $lang['admin button settings']            = "Pengaturan";
 $lang['admin button users']               = "User";
+$lang['admin button master']              = "Master Data";
+$lang['admin button master_users']        = "User";
+$lang['admin button master_customers']    = "Customer";
+$lang['admin button master_contacts']     = "Contact";
+$lang['admin button master_projects']     = "Proyek";
+$lang['admin button master_applications'] = "Aplikasi";
+$lang['admin button master_servers']      = "Server";
+$lang['admin button work_packages']       = "Work Packages";
 $lang['admin button users_add']           = "Tambah User Baru";
 $lang['admin button users_list']          = "Daftar User";
 
 // Tooltips
-$lang['admin tooltip csv_export']         = "Ekspor file CSV dari semua hasil dengan penerapan penyaringan.";
-$lang['admin tooltip filter']             = "Perbarui hasil berdasarkan penyaringan anda.";
-$lang['admin tooltip filter_reset']       = "Bersihkan semua penyaringan dan pengurutan anda.";
+$lang['admin tooltip csv_export']   = "Ekspor file CSV dari semua hasil dengan penerapan penyaringan.";
+$lang['admin tooltip filter']       = "Perbarui hasil berdasarkan penyaringan anda.";
+$lang['admin tooltip filter_reset'] = "Bersihkan semua penyaringan dan pengurutan anda.";
 
 // Form Inputs
-$lang['admin input active']               = "Aktif";
-$lang['admin input inactive']             = "Non Aktif";
-$lang['admin input items_per_page']       = "item/halaman";
-$lang['admin input select']               = "pilih...";
-$lang['admin input username']             = "Username";
+$lang['admin input active']         = "Aktif";
+$lang['admin input inactive']       = "Non Aktif";
+$lang['admin input items_per_page'] = "item/halaman";
+$lang['admin input select']         = "pilih...";
+$lang['admin input username']       = "Username";
 
 // Table Columns
-$lang['admin col actions']                = "Aksi";
-$lang['admin col status']                 = "Status";
+$lang['admin col actions'] = "Aksi";
+$lang['admin col status']  = "Status";
 
 // Form Labels
-$lang['admin label rows']                 = "%s baris";
+$lang['admin label rows'] = "%s baris";

@@ -29,4 +29,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Switched to .local for development
  * http://fossilgeek.jasonbaier.com/posts/google-chrome-63-forcing-dev-domains-to-https
  */
-$config['base_url'] = 'http://ci3-fire-starter.local/';
+$config['base_url'] = 'http://gawean.local/project1';

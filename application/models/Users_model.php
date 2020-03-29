@@ -1,24 +1,23 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Users_model extends CI_Model {
+class Users_model extends CI_Model
+{
 
     /**
      * @vars
      */
     private $_db;
 
-
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         // define primary table
         $this->_db = 'users';
     }
-
 
     /**
      * Get list of non-deleted users
@@ -30,7 +29,7 @@ class Users_model extends CI_Model {
      * @param  string $dir
      * @return array|boolean
      */
-    function get_all($limit=0, $offset=0, $filters=array(), $sort='last_name', $dir='ASC')
+    public function get_all($limit = 0, $offset = 0, $filters = array(), $sort = 'name', $dir = 'ASC')
     {
         $sql = "
             SELECT SQL_CALC_FOUND_ROWS *
@@ -38,10 +37,8 @@ class Users_model extends CI_Model {
             WHERE deleted = '0'
         ";
 
-        if ( ! empty($filters))
-        {
-            foreach ($filters as $key=>$value)
-            {
+        if (!empty($filters)) {
+            foreach ($filters as $key => $value) {
                 $value = $this->db->escape('%' . $value . '%');
                 $sql .= " AND {$key} LIKE {$value}";
             }
@@ -49,29 +46,24 @@ class Users_model extends CI_Model {
 
         $sql .= " ORDER BY {$sort} {$dir}";
 
-        if ($limit)
-        {
+        if ($limit) {
             $sql .= " LIMIT {$offset}, {$limit}";
         }
 
         $query = $this->db->query($sql);
 
-        if ($query->num_rows() > 0)
-        {
+        if ($query->num_rows() > 0) {
             $results['results'] = $query->result_array();
-        }
-        else
-        {
-            $results['results'] = NULL;
+        } else {
+            $results['results'] = null;
         }
 
-        $sql = "SELECT FOUND_ROWS() AS total";
-        $query = $this->db->query($sql);
+        $sql              = "SELECT FOUND_ROWS() AS total";
+        $query            = $this->db->query($sql);
         $results['total'] = $query->row()->total;
 
         return $results;
     }
-
 
     /**
      * Get specific user
@@ -79,10 +71,9 @@ class Users_model extends CI_Model {
      * @param  int $id
      * @return array|boolean
      */
-    function get_user($id=NULL)
+    public function get_user($id = null)
     {
-        if ($id)
-        {
+        if ($id) {
             $sql = "
                 SELECT *
                 FROM {$this->_db}
@@ -92,15 +83,13 @@ class Users_model extends CI_Model {
 
             $query = $this->db->query($sql);
 
-            if ($query->num_rows())
-            {
+            if ($query->num_rows()) {
                 return $query->row_array();
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Add a new user
@@ -108,12 +97,11 @@ class Users_model extends CI_Model {
      * @param  array $data
      * @return mixed|boolean
      */
-    function add_user($data=array())
+    public function add_user($data = array())
     {
-        if ($data)
-        {
+        if ($data) {
             // secure password
-            $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), TRUE));
+            $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
             $password = hash('sha512', $data['password'] . $salt);
 
             $sql = "
@@ -121,21 +109,19 @@ class Users_model extends CI_Model {
                     username,
                     password,
                     salt,
-                    first_name,
-                    last_name,
+                    name,
                     email,
                     language,
                     is_admin,
                     status,
                     deleted,
-                    created,
-                    updated
+                    created_at,
+                    updated_at
                 ) VALUES (
                     " . $this->db->escape($data['username']) . ",
                     " . $this->db->escape($password) . ",
                     " . $this->db->escape($salt) . ",
-                    " . $this->db->escape($data['first_name']) . ",
-                    " . $this->db->escape($data['last_name']) . ",
+                    " . $this->db->escape($data['name']) . ",
                     " . $this->db->escape($data['email']) . ",
                     " . $this->db->escape($this->config->item('language')) . ",
                     " . $this->db->escape($data['is_admin']) . ",
@@ -148,15 +134,13 @@ class Users_model extends CI_Model {
 
             $this->db->query($sql);
 
-            if ($id = $this->db->insert_id())
-            {
+            if ($id = $this->db->insert_id()) {
                 return $id;
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * User creates their own profile
@@ -164,36 +148,33 @@ class Users_model extends CI_Model {
      * @param  array $data
      * @return mixed|boolean
      */
-    function create_profile($data=array())
+    public function create_profile($data = array())
     {
-        if ($data)
-        {
+        if ($data) {
             // secure password and create validation code
-            $salt            = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), TRUE));
+            $salt            = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
             $password        = hash('sha512', $data['password'] . $salt);
-            $validation_code = sha1(microtime(TRUE) . mt_rand(10000, 90000));
+            $validation_code = sha1(microtime(true) . mt_rand(10000, 90000));
 
             $sql = "
                 INSERT INTO {$this->_db} (
                     username,
                     password,
                     salt,
-                    first_name,
-                    last_name,
+                    name,
                     email,
                     language,
                     is_admin,
                     status,
                     deleted,
                     validation_code,
-                    created,
-                    updated
+                    created_at,
+                    updated_at
                 ) VALUES (
                     " . $this->db->escape($data['username']) . ",
                     " . $this->db->escape($password) . ",
                     " . $this->db->escape($salt) . ",
-                    " . $this->db->escape($data['first_name']) . ",
-                    " . $this->db->escape($data['last_name']) . ",
+                    " . $this->db->escape($data['name']) . ",
                     " . $this->db->escape($data['email']) . ",
                     " . $this->db->escape($data['language']) . ",
                     '0',
@@ -207,15 +188,13 @@ class Users_model extends CI_Model {
 
             $this->db->query($sql);
 
-            if ($this->db->insert_id())
-            {
+            if ($this->db->insert_id()) {
                 return $validation_code;
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Edit an existing user
@@ -223,20 +202,18 @@ class Users_model extends CI_Model {
      * @param  array $data
      * @return boolean
      */
-    function edit_user($data=array())
+    public function edit_user($data = array())
     {
-        if ($data)
-        {
+        if ($data) {
             $sql = "
                 UPDATE {$this->_db}
                 SET
                     username = " . $this->db->escape($data['username']) . ",
             ";
 
-            if ($data['password'] != '')
-            {
+            if ($data['password'] != '') {
                 // secure password
-                $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), TRUE));
+                $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
                 $password = hash('sha512', $data['password'] . $salt);
 
                 $sql .= "
@@ -246,28 +223,25 @@ class Users_model extends CI_Model {
             }
 
             $sql .= "
-                    first_name = " . $this->db->escape($data['first_name']) . ",
-                    last_name = " . $this->db->escape($data['last_name']) . ",
+                    name = " . $this->db->escape($data['name']) . ",
                     email = " . $this->db->escape($data['email']) . ",
                     language = " . $this->db->escape($data['language']) . ",
                     is_admin = " . $this->db->escape($data['is_admin']) . ",
                     status = " . $this->db->escape($data['status']) . ",
-                    updated = '" . date('Y-m-d H:i:s') . "'
+                    updated_at = '" . date('Y-m-d H:i:s') . "'
                 WHERE id = " . $this->db->escape($data['id']) . "
                     AND deleted = '0'
             ";
 
             $this->db->query($sql);
 
-            if ($this->db->affected_rows())
-            {
-                return TRUE;
+            if ($this->db->affected_rows()) {
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * User edits their own profile
@@ -276,20 +250,18 @@ class Users_model extends CI_Model {
      * @param  int $user_id
      * @return boolean
      */
-    function edit_profile($data=array(), $user_id=NULL)
+    public function edit_profile($data = array(), $user_id = null)
     {
-        if ($data && $user_id)
-        {
+        if ($data && $user_id) {
             $sql = "
                 UPDATE {$this->_db}
                 SET
                     username = " . $this->db->escape($data['username']) . ",
             ";
 
-            if ($data['password'] != '')
-            {
+            if ($data['password'] != '') {
                 // secure password
-                $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), TRUE));
+                $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
                 $password = hash('sha512', $data['password'] . $salt);
 
                 $sql .= "
@@ -299,26 +271,23 @@ class Users_model extends CI_Model {
             }
 
             $sql .= "
-                    first_name = " . $this->db->escape($data['first_name']) . ",
-                    last_name = " . $this->db->escape($data['last_name']) . ",
+                    name = " . $this->db->escape($data['name']) . ",
                     email = " . $this->db->escape($data['email']) . ",
                     language = " . $this->db->escape($data['language']) . ",
-                    updated = '" . date('Y-m-d H:i:s') . "'
+                    updated_at = '" . date('Y-m-d H:i:s') . "'
                 WHERE id = " . $this->db->escape($user_id) . "
                     AND deleted = '0'
             ";
 
             $this->db->query($sql);
 
-            if ($this->db->affected_rows())
-            {
-                return TRUE;
+            if ($this->db->affected_rows()) {
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Soft delete an existing user
@@ -326,32 +295,30 @@ class Users_model extends CI_Model {
      * @param  int $id
      * @return boolean
      */
-    function delete_user($id=NULL)
+    public function delete_user($id = null)
     {
-        if ($id)
-        {
+        if ($id) {
             $sql = "
                 UPDATE {$this->_db}
                 SET
+                    email = '',
                     is_admin = '0',
                     status = '0',
                     deleted = '1',
-                    updated = '" . date('Y-m-d H:i:s') . "'
+                    updated_at = '" . date('Y-m-d H:i:s') . "'
                 WHERE id = " . $this->db->escape($id) . "
                     AND id > 1
             ";
 
             $this->db->query($sql);
 
-            if ($this->db->affected_rows())
-            {
-                return TRUE;
+            if ($this->db->affected_rows()) {
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Check for valid login credentials
@@ -360,24 +327,22 @@ class Users_model extends CI_Model {
      * @param  string $password
      * @return array|boolean
      */
-    function login($username=NULL, $password=NULL)
+    public function login($username = null, $password = null)
     {
-        if ($username && $password)
-        {
+        if ($username && $password) {
             $sql = "
                 SELECT
                     id,
                     username,
                     password,
                     salt,
-                    first_name,
-                    last_name,
+                    name,
                     email,
                     language,
                     is_admin,
                     status,
-                    created,
-                    updated
+                    created_at,
+                    updated_at
                 FROM {$this->_db}
                 WHERE (username = " . $this->db->escape($username) . "
                         OR email = " . $this->db->escape($username) . ")
@@ -388,13 +353,11 @@ class Users_model extends CI_Model {
 
             $query = $this->db->query($sql);
 
-            if ($query->num_rows())
-            {
-                $results = $query->row_array();
+            if ($query->num_rows()) {
+                $results         = $query->row_array();
                 $salted_password = hash('sha512', $password . $results['salt']);
 
-                if ($results['password'] == $salted_password)
-                {
+                if ($results['password'] == $salted_password) {
                     unset($results['password']);
                     unset($results['salt']);
 
@@ -403,16 +366,15 @@ class Users_model extends CI_Model {
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Handle user login attempts
      *
      * @return boolean
      */
-    function login_attempts()
+    public function login_attempts()
     {
         // delete older attempts
         $older_time = date('Y-m-d H:i:s', strtotime('-' . $this->config->item('login_max_time') . ' seconds'));
@@ -447,20 +409,17 @@ class Users_model extends CI_Model {
 
         $query = $this->db->query($sql);
 
-        if ($query->num_rows())
-        {
-            $results = $query->row_array();
+        if ($query->num_rows()) {
+            $results        = $query->row_array();
             $login_attempts = $results['attempts'];
-            if ($login_attempts > $this->config->item('login_max_attempts'))
-            {
+            if ($login_attempts > $this->config->item('login_max_attempts')) {
                 // too many attempts
-                return FALSE;
+                return false;
             }
         }
 
-        return TRUE;
+        return true;
     }
-
 
     /**
      * Validate a user-created account
@@ -469,10 +428,9 @@ class Users_model extends CI_Model {
      * @param  string $validation_code
      * @return boolean
      */
-    function validate_account($encrypted_email=NULL, $validation_code=NULL)
+    public function validate_account($encrypted_email = null, $validation_code = null)
     {
-        if ($encrypted_email && $validation_code)
-        {
+        if ($encrypted_email && $validation_code) {
             $sql = "
                 SELECT id
                 FROM {$this->_db}
@@ -485,8 +443,7 @@ class Users_model extends CI_Model {
 
             $query = $this->db->query($sql);
 
-            if ($query->num_rows())
-            {
+            if ($query->num_rows()) {
                 $results = $query->row_array();
 
                 $sql = "
@@ -498,16 +455,14 @@ class Users_model extends CI_Model {
 
                 $this->db->query($sql);
 
-                if ($this->db->affected_rows())
-                {
-                    return TRUE;
+                if ($this->db->affected_rows()) {
+                    return true;
                 }
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Reset password
@@ -515,14 +470,13 @@ class Users_model extends CI_Model {
      * @param  array $data
      * @return mixed|boolean
      */
-    function reset_password($data=array())
+    public function reset_password($data = array())
     {
-        if ($data)
-        {
+        if ($data) {
             $sql = "
                 SELECT
                     id,
-                    first_name
+                    name
                 FROM {$this->_db}
                 WHERE email = " . $this->db->escape($data['email']) . "
                     AND status = '1'
@@ -532,17 +486,16 @@ class Users_model extends CI_Model {
 
             $query = $this->db->query($sql);
 
-            if ($query->num_rows())
-            {
+            if ($query->num_rows()) {
                 // get user info
                 $user = $query->row_array();
 
                 // create new random password
                 $user_data['new_password'] = generate_random_password();
-                $user_data['first_name']   = $user['first_name'];
+                $user_data['name']         = $user['name'];
 
                 // create new salt and stored password
-                $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), TRUE));
+                $salt     = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
                 $password = hash('sha512', $user_data['new_password'] . $salt);
 
                 $sql = "
@@ -554,16 +507,14 @@ class Users_model extends CI_Model {
 
                 $this->db->query($sql);
 
-                if ($this->db->affected_rows())
-                {
+                if ($this->db->affected_rows()) {
                     return $user_data;
                 }
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Check to see if a username already exists
@@ -571,7 +522,7 @@ class Users_model extends CI_Model {
      * @param  string $username
      * @return boolean
      */
-    function username_exists($username)
+    public function username_exists($username)
     {
         $sql = "
             SELECT id
@@ -582,14 +533,12 @@ class Users_model extends CI_Model {
 
         $query = $this->db->query($sql);
 
-        if ($query->num_rows())
-        {
-            return TRUE;
+        if ($query->num_rows()) {
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
-
 
     /**
      * Check to see if an email already exists
@@ -597,7 +546,7 @@ class Users_model extends CI_Model {
      * @param  string $email
      * @return boolean
      */
-    function email_exists($email)
+    public function email_exists($email)
     {
         $sql = "
             SELECT id
@@ -608,12 +557,11 @@ class Users_model extends CI_Model {
 
         $query = $this->db->query($sql);
 
-        if ($query->num_rows())
-        {
-            return TRUE;
+        if ($query->num_rows()) {
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
 }

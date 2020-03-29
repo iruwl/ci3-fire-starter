@@ -72,6 +72,9 @@ class MY_Controller extends CI_Controller {
             $this->config->set_item('language', $this->config->item('language'));
         }
 
+        // force indonesian
+        $this->config->set_item('language', 'indonesian');
+
         // save selected language to session
         $this->session->language = $this->config->item('language');
 

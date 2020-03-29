@@ -42,7 +42,7 @@ class Api extends API_Controller {
             foreach($users['results'] as $user)
             {
                 $results['data'][$user['id']] = array(
-                    'name'   => $user['first_name'] . " " . $user['last_name'],
+                    'name'   => $user['name'],
                     'email'  => $user['email'],
                     'status' => ($user['status']) ? lang('admin input active') : lang('admin input inactive')
                 );

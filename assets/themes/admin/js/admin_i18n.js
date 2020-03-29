@@ -2,26 +2,22 @@
  * Global admin functions
  */
 $(document).ready(function() {
-
+    $('.page-header').prepend($('.header'))
     /**
      * Enable tooltips
      */
     if ($('.tooltips').length) {
         $('.tooltips').tooltip();
     }
-
-
     /**
      * Activate any date pickers
      */
     if ($(".input-group.date").length) {
         $(".input-group.date").datepicker({
-            autoclose      : true,
-            todayHighlight : true
+            autoclose: true,
+            todayHighlight: true
         });
     }
-
-
     /**
      * Detect items per page change on all list pages and send users back to page 1 of the list
      */
@@ -30,19 +26,15 @@ $(document).ready(function() {
         var currentUrl = document.URL.split('?');
         var uriParams = "";
         var separator;
-
         if (currentUrl[1] != undefined) {
             var parts = currentUrl[1].split('&');
-
             for (var i = 0; i < parts.length; i++) {
                 if (i == 0) {
                     separator = "?";
                 } else {
                     separator = "&";
                 }
-
                 var param = parts[i].split('=');
-
                 if (param[0] == 'limit') {
                     uriParams += separator + param[0] + "=" + limit;
                 } else if (param[0] == 'offset') {
@@ -54,12 +46,9 @@ $(document).ready(function() {
         } else {
             uriParams = "?limit=" + limit;
         }
-
         // reload page
         window.location.href = currentUrl[0] + uriParams;
     });
-
-
     /**
      * Enable Summernote WYSIWYG editor on any textareas with the 'editor' class
      */
@@ -71,5 +60,4 @@ $(document).ready(function() {
             });
         });
     }
-
 });

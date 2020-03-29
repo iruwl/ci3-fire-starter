@@ -8,7 +8,7 @@ $lang['core button admin']                  = "Admin";
 $lang['core button cancel']              	= "Batal";
 $lang['core button close']               	= "Tutup";
 $lang['core button contact']               	= "Kontak";
-$lang['core button filter']              	= "Penyaringan";
+$lang['core button filter']              	= "Filter";
 $lang['core button home']                	= "Home";
 $lang['core button login']               	= "Masuk";
 $lang['core button logout']              	= "Keluar";
@@ -22,7 +22,7 @@ $lang['core button return_home']            = "Kembali ke Homepage";
 // Text
 $lang['core text no']                    	= "Tidak";
 $lang['core text yes']                   	= "Ya";
-$lang['core text page_rendered']            = "Halaman diberikan di <strong>{elapsed_time}</strong> detik";
+$lang['core text page_rendered']            = "Page rendered in <strong>{elapsed_time}</strong> seconds";
 $lang['core text oops']                     = "Ups!";
 $lang['core text 404_error']                = "Anda meminta halaman yang tidak ada.";
 

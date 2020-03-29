@@ -27,18 +27,16 @@ $lang['users link forgot_password']           = "Forgot your password?";
 $lang['users link register_account']          = "Register for an account.";
 
 // Table Columns
-$lang['users col first_name']                 = "First Name";
+$lang['users col name']                 = "Name";
 $lang['users col is_admin']                   = "Admin";
-$lang['users col last_name']                  = "Last Name";
 $lang['users col user_id']                    = "ID";
 $lang['users col username']                   = "Username";
 
 // Form Inputs
 $lang['users input email']                    = "Email";
-$lang['users input first_name']               = "First Name";
+$lang['users input name']               = "Name";
 $lang['users input is_admin']                 = "Is Admin";
 $lang['users input language']                 = "Language";
-$lang['users input last_name']                = "Last Name";
 $lang['users input password']                 = "Password";
 $lang['users input password_repeat']          = "Repeat Password";
 $lang['users input status']                   = "Status";

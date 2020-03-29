@@ -12,18 +12,11 @@
     </div>
 
     <div class="row">
-        <?php // first name ?>
-        <div class="form-group col-sm-4<?php echo form_error('first_name') ? ' has-error' : ''; ?>">
-            <?php echo form_label(lang('users input first_name'), 'first_name', array('class'=>'control-label')); ?>
+        <?php // name ?>
+        <div class="form-group col-sm-4<?php echo form_error('name') ? ' has-error' : ''; ?>">
+            <?php echo form_label(lang('users input name'), 'name', array('class'=>'control-label')); ?>
             <span class="required">*</span>
-            <?php echo form_input(array('name'=>'first_name', 'value'=>set_value('first_name', (isset($user['first_name']) ? $user['first_name'] : '')), 'class'=>'form-control')); ?>
-        </div>
-
-        <?php // last name ?>
-        <div class="form-group col-sm-4<?php echo form_error('last_name') ? ' has-error' : ''; ?>">
-            <?php echo form_label(lang('users input last_name'), 'last_name', array('class'=>'control-label')); ?>
-            <span class="required">*</span>
-            <?php echo form_input(array('name'=>'last_name', 'value'=>set_value('last_name', (isset($user['last_name']) ? $user['last_name'] : '')), 'class'=>'form-control')); ?>
+            <?php echo form_input(array('name'=>'name', 'value'=>set_value('name', (isset($user['name']) ? $user['name'] : '')), 'class'=>'form-control')); ?>
         </div>
     </div>
 
