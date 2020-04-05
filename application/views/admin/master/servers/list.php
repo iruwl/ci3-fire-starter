@@ -28,8 +28,12 @@
                     <?php if ($sort == 'nama'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
                 </td>
                 <td>
-                    <a href="<?php echo current_url(); ?>?sort=cpu&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col cpu'); ?></a>
-                    <?php if ($sort == 'cpu'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
+                    <a href="<?php echo current_url(); ?>?sort=os&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col os'); ?></a>
+                    <?php if ($sort == 'os'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
+                </td>
+                <td>
+                    <a href="<?php echo current_url(); ?>?sort=processor&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col processor'); ?></a>
+                    <?php if ($sort == 'processor'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
                 </td>
                 <td>
                     <a href="<?php echo current_url(); ?>?sort=memory&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col memory'); ?></a>
@@ -54,8 +58,11 @@
                         <td<?php echo ((isset($filters['nama'])) ? ' class="has-success"' : ''); ?>>
                             <?php echo form_input(array('name' => 'nama', 'id' => 'nama', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input nama'), 'value' => set_value('nama', ((isset($filters['nama'])) ? $filters['nama'] : '')))); ?>
                         </td>
-                        <td<?php echo ((isset($filters['cpu'])) ? ' class="has-success"' : ''); ?>>
-                            <?php echo form_input(array('name' => 'cpu', 'id' => 'cpu', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input cpu'), 'value' => set_value('cpu', ((isset($filters['cpu'])) ? $filters['cpu'] : '')))); ?>
+                        <td<?php echo ((isset($filters['os'])) ? ' class="has-success"' : ''); ?>>
+                            <?php echo form_input(array('name' => 'os', 'id' => 'os', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input processor'), 'value' => set_value('processor', ((isset($filters['processor'])) ? $filters['processor'] : '')))); ?>
+                        </td>
+                        <td<?php echo ((isset($filters['processor'])) ? ' class="has-success"' : ''); ?>>
+                            <?php echo form_input(array('name' => 'processor', 'id' => 'processor', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input processor'), 'value' => set_value('processor', ((isset($filters['processor'])) ? $filters['processor'] : '')))); ?>
                         </td>
                         <td<?php echo ((isset($filters['memory'])) ? ' class="has-success"' : ''); ?>>
                             <?php echo form_input(array('name' => 'memory', 'id' => 'memory', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input memory'), 'value' => set_value('memory', ((isset($filters['memory'])) ? $filters['memory'] : '')))); ?>
@@ -65,8 +72,8 @@
                         </td>
                         <td colspan="3">
                             <div class="text-right">
-                                <a href="<?php echo $this_url; ?>" class="btn btn-danger btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter_reset'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-refresh"></span> <?php echo lang('global button reset'); ?></a>
-                                <button type="submit" name="submit" value="<?php echo lang('global button filter'); ?>" class="btn btn-success btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-filter"></span> <?php echo lang('global button filter'); ?></button>
+                                <button type="submit" name="submit" value="<?php echo lang('global button filter'); ?>" class="btn btn-default btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-filter"></span></button>
+                                <a href="<?php echo $this_url; ?>" class="btn btn-default btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter_reset'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-refresh"></span>\</a>
                             </div>
                         </td>
                     <?php echo form_close(); ?>
@@ -86,8 +93,11 @@
                         <td<?php echo (($sort == 'nama') ? ' class="sorted"' : ''); ?>>
                             <?php echo $row['nama']; ?>
                         </td>
-                        <td<?php echo (($sort == 'cpu') ? ' class="sorted"' : ''); ?>>
-                            <?php echo $row['cpu']; ?>
+                        <td<?php echo (($sort == 'os') ? ' class="sorted"' : ''); ?>>
+                            <?php echo $row['os']; ?>
+                        </td>
+                        <td<?php echo (($sort == 'processor') ? ' class="sorted"' : ''); ?>>
+                            <?php echo $row['processor']; ?>
                         </td>
                         <td<?php echo (($sort == 'memory') ? ' class="sorted"' : ''); ?>>
                             <?php echo $row['memory']; ?>

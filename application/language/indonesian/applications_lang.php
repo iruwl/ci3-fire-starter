@@ -4,7 +4,7 @@
  */
 
 // Titles
-$lang['applications title list']   = "Daftar Aplikasi";
+$lang['applications title list']   = "Aplikasi";
 $lang['applications title add']    = "Tambah Aplikasi";
 $lang['applications title edit']   = "Edit Aplikasi";
 $lang['applications title delete'] = "Konfirmasi Hapus Aplikasi";

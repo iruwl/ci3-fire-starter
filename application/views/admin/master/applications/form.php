@@ -26,22 +26,59 @@
             <div class="form-group <?php echo form_error('kategori') ? ' has-error' : ''; ?>">
                 <?php echo form_label(lang('applications input kategori'), 'kategori', array('class' => 'control-label')); ?>
                 <span class="required">*</span>
-                <?php echo form_dropdown('kategori', $dt_kategori, (isset($dt['kategori']) ? $dt['kategori'] : 'Undefined'), 'id="kategori" class="form-control"'); ?>
+                <?php echo form_dropdown('kategori', $dt_kategori, (isset($dt['kategori']) ? $dt['kategori'] : 'Undefined'), 'id="kategori" class="form-control select2"'); ?>
             </div>
             <div class="form-group <?php echo form_error('jenis') ? ' has-error' : ''; ?>">
                 <?php echo form_label(lang('applications input jenis'), 'jenis', array('class' => 'control-label')); ?>
                 <span class="required">*</span>
-                <?php echo form_dropdown('jenis', $dt_jenis, (isset($dt['jenis']) ? $dt['jenis'] : 'Undefined'), 'id="jenis" class="form-control"'); ?>
+                <?php echo form_dropdown('jenis', $dt_jenis, (isset($dt['jenis']) ? $dt['jenis'] : 'Undefined'), 'id="jenis" class="form-control select2"'); ?>
             </div>
             <div class="form-group <?php echo form_error('bahasa_program') ? ' has-error' : ''; ?>">
                 <?php echo form_label(lang('applications input bahasa_program'), 'bahasa_program', array('class' => 'control-label')); ?>
                 <span class="required">*</span>
-                <?php echo form_dropdown('bahasa_program', $dt_bahasa_program, (isset($dt['bahasa_program']) ? $dt['bahasa_program'] : 'Undefined'), 'id="bahasa_program" class="form-control"'); ?>
+                <?php echo form_dropdown('bahasa_program', $dt_bahasa_program, (isset($dt['bahasa_program']) ? $dt['bahasa_program'] : 'Undefined'), 'id="bahasa_program" class="form-control select2"'); ?>
+            </div>
+            <div class="form-group <?php echo form_error('keterangan') ? ' has-error' : ''; ?>">
+                <?php echo form_label(lang('applications input keterangan'), 'keterangan', array('class' => 'control-label')); ?>
+                <span class="required">*</span>
+                <?php echo form_input(array('name' => 'keterangan', 'value' => set_value('keterangan', (isset($dt['keterangan']) ? $dt['keterangan'] : '')), 'class' => 'form-control')); ?>
             </div>
         </div>
 
         <div class="col-sm-6">
-
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Dokumen</h3>
+                </div>
+                <table class="table" id="dokumen_fields">
+                    <tr>
+                        <!--<th style="width: 120px;">Tanggal</th>-->
+                        <th>File Name</th>
+                        <!--<th>File Path</th>-->
+                        <th>Keterangan</th>
+                        <th style="width: 50px;"><button type="button" class="btn btn-default btn-sm" id="add_dokumen" tabindex="-1"><span class="glyphicon glyphicon-plus"></span></button></th>
+                    </tr>
+                    <?php foreach ($dt_dokumen as $index => $rows): ?>
+                        <tr class="dokumen-row" id="<?php echo $index; ?>">
+                            <td>
+                                <div class="input-group">
+                                    <?php echo form_input(array('name' => "dokumen[$index][filename]", 'value' => $rows['filename'], 'class' => 'form-control', 'readonly' => 'true', 'style' => 'background-color: transparent;')); ?>
+                                    <?php echo form_input(array('name' => "dokumen[$index][tanggal]", 'value' => isset($rows['tanggal']) ? $rows['tanggal'] : date('d-m-Y') , 'class' => 'form-control', 'style' => 'display: none;')); ?>
+                                    <?php echo form_input(array('name' => "dokumen[$index][filepath]", 'value' => $rows['filepath'], 'class' => 'form-control', 'style'=>'display: none;')); ?>
+                                    <span class="input-group-btn">
+                                        <label class="btn btn-default"><span class="glyphicon glyphicon-folder-open"></span>
+                                            <!--<input type="file" style="display: none;" onchange="$('input[name^=\'dokumen[0][filename]\']').val(this.files[0].name)"> -->
+                                            <?php echo form_upload(array('onchange' => "$('input[name^=\'dokumen[$index][filename]\']').val(this.files[0].name); upload(this, $('input[name^=\'dokumen[$index][filepath]\']'));", 'style' => 'display: none;', 'name' => "file")); ?>
+                                        </label>
+                                    </span>
+                                </div>
+                            </td>
+                            <td><?php echo form_input(array('name' => "dokumen[$index][keterangan]", 'value' => $rows['keterangan'], 'class' => 'form-control')); ?></td>
+                            <td><button type="button" class="btn btn-default btn-sm btn_remove_dokumen" id="<?php echo $index; ?>" tabindex="-1"><span class="glyphicon glyphicon-minus"></span></button></td>
+                        </tr>
+                    <?php endforeach;?>
+                </table>
+            </div>
         </div>
     </div>
 

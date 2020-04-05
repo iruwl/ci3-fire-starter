@@ -40,6 +40,9 @@ class Applications extends Admin_Controller
         } else {
             $this->_redirect_url = THIS_URL;
         }
+
+        // add js
+        $this->add_js_theme("applications_i18n.js");
     }
 
     /**************************************************************************************
@@ -135,10 +138,13 @@ class Applications extends Admin_Controller
         $this->form_validators();
 
         if ($this->form_validation->run() == true) {
+            $post        = $this->input->post();
             $active_user = $this->session->userdata('logged_in');
 
+            $post['dokumen'] = count($this->input->post('dokumen')) ? json_encode($this->input->post('dokumen')) : null;
+
             // save
-            $saved = $this->applications_model->do_save($this->input->post(), $active_user['id']);
+            $saved = $this->applications_model->do_save($post, $active_user['id']);
 
             if ($saved) {
                 $this->session->set_flashdata('message', sprintf(lang('global msg add_success'), $this->input->post('nama')));
@@ -155,6 +161,11 @@ class Applications extends Admin_Controller
 
         $data = $this->includes;
 
+        $dokumen = $this->ref_dokumen();
+        if (!empty($this->input->post())) {
+            $dokumen = $this->input->post('dokumen');
+        }
+
         // set content data
         $content_data = array(
             'this_url'          => THIS_URL,
@@ -165,6 +176,7 @@ class Applications extends Admin_Controller
             'dt_kategori'       => $this->ref_kategori(),
             'dt_jenis'          => $this->ref_jenis(),
             'dt_bahasa_program' => $this->ref_bahasa_program(),
+            'dt_dokumen'        => $dokumen,
         );
 
         // load views
@@ -192,14 +204,26 @@ class Applications extends Admin_Controller
             redirect($this->_redirect_url);
         }
 
+        $dokumen = $this->ref_dokumen();
+        if (!empty($this->input->post())) {
+            $dokumen = $this->input->post('dokumen');
+        } else {
+            if ($dt['dokumen']) {
+                $dokumen = $this->ref_dokumen(json_decode($dt['dokumen'], true));
+            }
+        }
+
         // validators
         $this->form_validators($dt, false);
 
         if ($this->form_validation->run() == true) {
+            $post        = $this->input->post();
             $active_user = $this->session->userdata('logged_in');
 
-            // save the changes
-            $saved = $this->applications_model->do_save($this->input->post(), $active_user['id']);
+            $post['dokumen'] = count($this->input->post('dokumen')) ? json_encode($this->input->post('dokumen')) : null;
+
+            // save
+            $saved = $this->applications_model->do_save($post, $active_user['id']);
 
             if ($saved) {
                 $this->session->set_flashdata('message', sprintf(lang('global msg edit_success'), $this->input->post('nama')));
@@ -226,6 +250,7 @@ class Applications extends Admin_Controller
             'dt_kategori'       => $this->ref_kategori(),
             'dt_jenis'          => $this->ref_jenis(),
             'dt_bahasa_program' => $this->ref_bahasa_program(),
+            'dt_dokumen'        => $dokumen,
         );
 
         // load views
@@ -374,6 +399,24 @@ class Applications extends Admin_Controller
             'Delphi'          => 'Delphi',
             'Shell Scripting' => 'Shell Scripting',
         );
+    }
+
+    private function ref_dokumen($data = array())
+    {
+        $key_values = array();
+        $key_fields = array('tanggal', 'filename', 'filepath', 'keterangan');
+        if (is_array($data) and count($data)) {
+            foreach ($data as $index => $rows) {
+                foreach ($key_fields as $key) {
+                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                }
+            }
+        } else {
+            foreach ($key_fields as $key) {
+                $key_values[0][$key] = null;
+            }
+        }
+        return $key_values;
     }
 
     /**

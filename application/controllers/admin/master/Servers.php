@@ -21,9 +21,10 @@ class Servers extends Admin_Controller
             'servers',
         ));
 
-        // load model
+        // load models
         $this->load->model(array(
             'servers_model',
+            'clients_model',
         ));
 
         // set constants
@@ -40,6 +41,9 @@ class Servers extends Admin_Controller
         } else {
             $this->_redirect_url = THIS_URL;
         }
+
+        // add js
+        $this->add_js_theme("servers_i18n.js");
     }
 
     /**************************************************************************************
@@ -131,14 +135,25 @@ class Servers extends Admin_Controller
      */
     public function add()
     {
+        // print_r($this->clients_model->dropdown('id', 'nama')); die();
+        // print_r(array_merge($this->clients_model->dropdown('id', 'nama'), array( 'N/A'))); die();
+        // print_r(array_merge( array( 'N/A'),$this->clients_model->dropdown('id', 'nama'))); die();
+        // print_r((array)'Select the data' + $this->clients_model->dropdown('id', 'nama')); die();
+
         // validators
         $this->form_validators();
 
         if ($this->form_validation->run() == true) {
             $active_user = $this->session->userdata('logged_in');
 
+            $post = $this->input->post();
+
+            $post['ports']    = count($this->input->post('ports')) ? json_encode($this->input->post('ports')) : null;
+            $post['networks'] = count($this->input->post('networks')) ? json_encode($this->input->post('networks')) : null;
+            $post['users']    = count($this->input->post('users')) ? json_encode($this->input->post('users')) : null;
+
             // save
-            $saved = $this->servers_model->do_save($this->input->post(), $active_user['id']);
+            $saved = $this->servers_model->do_save($post, $active_user['id']);
 
             if ($saved) {
                 $this->session->set_flashdata('message', sprintf(lang('global msg add_success'), $this->input->post('nama')));
@@ -155,13 +170,33 @@ class Servers extends Admin_Controller
 
         $data = $this->includes;
 
+        $ports = $this->ref_ports();
+        if (!empty($this->input->post())) {
+            $ports = $this->input->post('ports');
+        }
+
+        $networks = $this->ref_networks();
+        if (!empty($this->input->post())) {
+            $networks = $this->input->post('networks');
+        }
+
+        $users = $this->ref_users();
+        if (!empty($this->input->post())) {
+            $users = $this->input->post('users');
+        }
+
         // set content data
         $content_data = array(
-            'this_url'   => THIS_URL,
-            'title'      => $this->includes['page_header'],
-            'cancel_url' => $this->_redirect_url,
-            'dt'         => empty($this->input->post()) ? null : $this->input->post(),
-            'dt_id'      => null,
+            'this_url'           => THIS_URL,
+            'title'              => $this->includes['page_header'],
+            'cancel_url'         => $this->_redirect_url,
+            'dt'                 => empty($this->input->post()) ? null : $this->input->post(),
+            'dt_id'              => null,
+            'dt_ports'           => $ports,
+            'dt_networks'        => $networks,
+            'dt_users'           => $users,
+            'dt_owner'           => $this->ref_owner(),
+            'dt_owned_by_client' => (array) 'N/A'+$this->clients_model->dropdown('id', 'nama'),
         );
 
         // load views
@@ -189,14 +224,47 @@ class Servers extends Admin_Controller
             redirect($this->_redirect_url);
         }
 
+        $ports = $this->ref_ports();
+        if (!empty($this->input->post())) {
+            $ports = $this->input->post('ports');
+        } else {
+            if ($dt['ports']) {
+                $ports = $this->ref_ports(json_decode($dt['ports'], true));
+            }
+        }
+
+        $networks = $this->ref_networks();
+        if (!empty($this->input->post())) {
+            $networks = $this->input->post('networks');
+        } else {
+            if ($dt['networks']) {
+                $networks = $this->ref_networks(json_decode($dt['networks'], true));
+            }
+        }
+
+        $users = $this->ref_users();
+        if (!empty($this->input->post())) {
+            $users = $this->input->post('users');
+        } else {
+            if ($dt['users']) {
+                $users = $this->ref_users(json_decode($dt['users'], true));
+            }
+        }
+
         // validators
         $this->form_validators($dt, false);
 
         if ($this->form_validation->run() == true) {
             $active_user = $this->session->userdata('logged_in');
 
+            $post = $this->input->post();
+
+            $post['ports']    = count($this->input->post('ports')) ? json_encode($this->input->post('ports')) : null;
+            $post['networks'] = count($this->input->post('networks')) ? json_encode($this->input->post('networks')) : null;
+            $post['users']    = count($this->input->post('users')) ? json_encode($this->input->post('users')) : null;
+
             // save the changes
-            $saved = $this->servers_model->do_save($this->input->post(), $active_user['id']);
+            $saved = $this->servers_model->do_save($post, $active_user['id']);
 
             if ($saved) {
                 $this->session->set_flashdata('message', sprintf(lang('global msg edit_success'), $this->input->post('nama')));
@@ -215,11 +283,16 @@ class Servers extends Admin_Controller
 
         // set content data
         $content_data = array(
-            'this_url'   => THIS_URL,
-            'title'      => $this->includes['page_header'],
-            'cancel_url' => $this->_redirect_url,
-            'dt'         => empty($this->input->post()) ? $dt : $this->input->post(),
-            'dt_id'      => $id,
+            'this_url'           => THIS_URL,
+            'title'              => $this->includes['page_header'],
+            'cancel_url'         => $this->_redirect_url,
+            'dt'                 => empty($this->input->post()) ? $dt : $this->input->post(),
+            'dt_id'              => $id,
+            'dt_ports'           => $ports,
+            'dt_networks'        => $networks,
+            'dt_users'           => $users,
+            'dt_owner'           => $this->ref_owner(),
+            'dt_owned_by_client' => (array) 'N/A'+$this->clients_model->dropdown('id', 'nama'),
         );
 
         // load views
@@ -311,25 +384,86 @@ class Servers extends Admin_Controller
         } else {
             $this->form_validation->set_rules('nama', lang('servers input nama'), 'required|trim|min_length[3]|max_length[64]|callback__check_nama[' . $dt['nama'] . ']');
         }
-        $this->form_validation->set_rules('cpu', lang('servers input cpu'), 'required|trim|max_length[32]');
+        $this->form_validation->set_rules('os', lang('servers input os'), 'required|trim|max_length[20]');
+        $this->form_validation->set_rules('processor', lang('servers input processor'), 'required|trim|max_length[32]');
         $this->form_validation->set_rules('memory', lang('servers input memory'), 'required|trim|max_length[32]');
         $this->form_validation->set_rules('storage', lang('servers input storage'), 'required|trim|max_length[32]');
-        // $this->form_validation->set_rules('port_opens', lang('servers input port_opens'), 'required|trim');
-        // $this->form_validation->set_rules('network_interface', lang('servers input network_interface'), 'required|trim');
+        $this->form_validation->set_rules('owner', lang('servers input owner'), 'required|trim');
+        // $this->form_validation->set_rules('ports', lang('servers input ports'), 'required|trim');
+        // $this->form_validation->set_rules('networks', lang('servers input networks'), 'required|trim');
         // $this->form_validation->set_rules('users', lang('servers input users'), 'required|trim');
-        // $this->form_validation->set_rules('owned_by_me', lang('servers input owned_by_me'), 'required|trim');
-        // $this->form_validation->set_rules('owned_by_other', lang('servers input owned_by_other'), 'required|trim');
-        // $this->form_validation->set_rules('owner_id', lang('servers input owner_id'), 'required|trim');
+        $this->form_validation->set_rules('owned_by_client', lang('servers input owned_by_client'), 'numeric');
+        $this->form_validation->set_rules('owned_by_other', lang('servers input owned_by_other'), 'trim|max_length[32]');
+        $this->form_validation->set_rules('location', lang('servers input location'), 'trim');
         // $this->form_validation->set_rules('latitude', lang('servers input latitude'), 'required|trim');
         // $this->form_validation->set_rules('longitude', lang('servers input longitude'), 'required|trim');
-        // $this->form_validation->set_rules('keterangan', lang('servers input keterangan'), 'required|trim');
-        // $this->form_validation->set_rules('created_at', lang('servers input created_at'), 'required|trim');
-        // $this->form_validation->set_rules('created_by', lang('servers input created_by'), 'required|trim');
-        // $this->form_validation->set_rules('updated_at', lang('servers input updated_at'), 'required|trim');
-        // $this->form_validation->set_rules('updated_by', lang('servers input updated_by'), 'required|trim');
-        // $this->form_validation->set_rules('deleted_at', lang('servers input deleted_at'), 'required|trim');
-        // $this->form_validation->set_rules('deleted_by', lang('servers input deleted_by'), 'required|trim');
-        // $this->form_validation->set_rules('deleted', lang('servers input deleted'), 'required|trim');
+        $this->form_validation->set_rules('keterangan', lang('servers input keterangan'), 'trim');
+    }
+
+    /**
+     * Enum pada field servers.owner
+     */
+    private function ref_owner()
+    {
+        return array(
+            'Milik Sendiri'       => 'Milik Sendiri',
+            'Milik Klien'         => 'Milik Klien',
+            'Milik Pihak Lainnya' => 'Milik Pihak Lainnya',
+        );
+    }
+
+    private function ref_ports($data = array())
+    {
+        $key_values = array();
+        $key_fields = array('port', 'keterangan');
+        if (is_array($data) and count($data)) {
+            foreach ($data as $index => $rows) {
+                foreach ($key_fields as $key) {
+                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                }
+            }
+        } else {
+            foreach ($key_fields as $key) {
+                $key_values[0][$key] = null;
+            }
+        }
+        return $key_values;
+    }
+
+    private function ref_networks($data = array())
+    {
+        $key_values = array();
+        $key_fields = array('interface', 'ip', 'keterangan');
+        if (is_array($data) and count($data)) {
+            foreach ($data as $index => $rows) {
+                foreach ($key_fields as $key) {
+                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                }
+            }
+        } else {
+            foreach ($key_fields as $key) {
+                $key_values[0][$key] = null;
+            }
+        }
+        return $key_values;
+    }
+
+    private function ref_users($data = array())
+    {
+        $key_values = array();
+        $key_fields = array('user', 'password');
+        if (is_array($data) and count($data)) {
+            foreach ($data as $index => $rows) {
+                foreach ($key_fields as $key) {
+                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                }
+            }
+        } else {
+            foreach ($key_fields as $key) {
+                $key_values[0][$key] = null;
+            }
+        }
+        return $key_values;
     }
 
     /**
@@ -347,5 +481,22 @@ class Servers extends Admin_Controller
         } else {
             return $nama;
         }
+    }
+
+    /**
+     * not used
+     */
+    public function _check_ip($data)
+    {
+        print_r($data); die();
+        if (is_array($data) and count($data)) {
+            foreach ($data as $rows) {
+                if (isset($rows['ip']) && filter_var($rows['ip'], FILTER_VALIDATE_IP) == false) {
+                    $this->form_validation->set_message('title_validate', 'The Title field is Required.');
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

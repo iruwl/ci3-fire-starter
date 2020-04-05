@@ -4,7 +4,7 @@
  */
 
 // Titles
-$lang['projects title list']   = "Daftar Proyek";
+$lang['projects title list']   = "Proyek";
 $lang['projects title add']    = "Tambah Proyek";
 $lang['projects title edit']   = "Edit Proyek";
 $lang['projects title delete'] = "Konfirmasi Hapus Proyek";

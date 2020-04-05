@@ -9,3 +9,7 @@
 .DS_Store
 Thumbs.db
 ._*
+
+upload/*
+!upload/index.html
+!upload/.htaccess

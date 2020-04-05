@@ -40,7 +40,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url('/admin'); ?>"><?php echo $this->settings->site_name; ?></a>
+                <a class="navbar-brand" href="<?php echo base_url(); ?>"><?php echo $this->settings->site_name; ?></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <?php // Nav bar left ?>
@@ -59,7 +59,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo lang('admin button master'); ?> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li class="<?php echo (uri_string() == 'admin/master/users') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/users'); ?>"><?php echo lang('admin button master_users'); ?></a></li>
-                            <li class="<?php echo (uri_string() == 'admin/master/customers') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/customers'); ?>"><?php echo lang('admin button master_customers'); ?></a></li>
+                            <li class="<?php echo (uri_string() == 'admin/master/clients') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/clients'); ?>"><?php echo lang('admin button master_clients'); ?></a></li>
                             <li class="<?php echo (uri_string() == 'admin/master/contacts') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/contacts'); ?>"><?php echo lang('admin button master_contacts'); ?></a></li>
                             <!--<li class="<?php echo (uri_string() == 'admin/master/projects') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/projects'); ?>"><?php echo lang('admin button master_projects'); ?></a></li> -->
                             <li class="<?php echo (uri_string() == 'admin/master/applications') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/applications'); ?>"><?php echo lang('admin button master_applications'); ?></a></li>
@@ -69,7 +69,7 @@
                     <li class="dropdown<?php echo (strstr(uri_string(), 'admin/work_packages')) ? ' active' : ''; ?>">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo lang('admin button work_packages'); ?> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li class="<?php echo (uri_string() == 'admin/master/projects') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/master/projects'); ?>"><?php echo lang('admin button master_projects'); ?></a></li>
+                            <li class="<?php echo (uri_string() == 'admin/work_packages/projects') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/work_packages/projects'); ?>"><?php echo lang('admin button master_projects'); ?></a></li>
                         </ul>
                     </li>
                     <li class="<?php echo (uri_string() == 'admin/contact') ? 'active' : ''; ?>"><a href="<?php echo base_url('/admin/contact'); ?>"><?php echo lang('admin button messages'); ?></a></li>

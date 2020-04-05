@@ -621,7 +621,6 @@ class MY_Model extends CI_Model
     public function dropdown()
     {
         $args = func_get_args();
-
         if (count($args) == 2) {
             list($key, $value) = $args;
         } else {
@@ -632,7 +631,7 @@ class MY_Model extends CI_Model
             $this->trigger('before_dropdown', array($key, $value));
         }
         if ($this->soft_delete && $this->_temporary_with_deleted !== true) {
-            $this->_database->where($this->soft_delete_key, false);
+            $this->_database->where($this->soft_delete_key, ($this->_temporary_only_deleted ? '1' : '0'));
         }
 
         $result = $this->_database->select(array($key, $value))

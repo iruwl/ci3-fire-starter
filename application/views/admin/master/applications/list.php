@@ -65,8 +65,8 @@
                         </td>
                         <td colspan="3">
                             <div class="text-right">
-                                <a href="<?php echo $this_url; ?>" class="btn btn-danger btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter_reset'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-refresh"></span> <?php echo lang('global button reset'); ?></a>
-                                <button type="submit" name="submit" value="<?php echo lang('global button filter'); ?>" class="btn btn-success btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-filter"></span> <?php echo lang('global button filter'); ?></button>
+                                <button type="submit" name="submit" value="<?php echo lang('global button filter'); ?>" class="btn btn-default btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-filter"></span></button>
+                                <a href="<?php echo $this_url; ?>" class="btn btn-default btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter_reset'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-refresh"></span></a>
                             </div>
                         </td>
                     <?php echo form_close(); ?>
