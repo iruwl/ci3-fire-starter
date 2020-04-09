@@ -1,12 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Servers_model extends MY_Model
+class Server_applications_model extends MY_Model
 {
-    public $_table = 'servers';
+    public $_table = 'server_applications';
 
-    public $has_many = array(
-        'server_applications' => array('primary_key' => 'server_id', 'model' => 'server_applications_model'),
-    );
+    // public $belongs_to = array(
+    //     'servers'      => array('primary_key' => 'server_id', 'model' => 'servers_model'),
+    //     'applications' => array('primary_key' => 'application_id', 'model' => 'applications_model'),
+    // );
 
     public $protected_attributes = array('id');
     public $soft_delete          = true;
@@ -34,21 +35,5 @@ class Servers_model extends MY_Model
         $data['deleted_by'] = $user_id;
         $this->update($id, $this->deleted_at($data));
         return $this->delete($id);
-    }
-
-    /**
-     * Check to see if a nama already exists
-     *
-     * @param  string $nama
-     * @return boolean
-     */
-    public function nama_exists($nama)
-    {
-        $query = $this->_database->get_where($this->_table, array(
-            'nama'    => $nama,
-            'deleted' => '0',
-        ));
-
-        return $query->num_rows() > 0;
     }
 }

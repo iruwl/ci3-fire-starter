@@ -19,12 +19,12 @@ $(document).ready(function() {
           '        </div>' +
           '    </td>' +
           '    <td><input type="text" name="dokumen['+count_dokumen+'][keterangan]" class="form-control"></td>' +
-          '    <td><button type="button" class="btn btn-default btn-sm btn_remove_dokumen" id="0" tabindex="-1"><span class="glyphicon glyphicon-minus"></span></button></td>' +
+          '    <td><button type="button" class="btn btn-default btn-sm btn_remove_dokumen" id="'+count_dokumen+'" tabindex="-1"><span class="glyphicon glyphicon-minus"></span></button></td>' +
           '</tr>'
         );
     });
     $(document).on('click', '.btn_remove_dokumen', function() {
-      if(confirm("Yakin akan menghapus?")) {
+      if(confirm("Yakin akan menghapus item ini?")) {
         var button_id = $(this).attr("id");
         $('.dokumen-row[id=' + button_id + ']').remove();
       }

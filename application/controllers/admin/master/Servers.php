@@ -25,6 +25,8 @@ class Servers extends Admin_Controller
         $this->load->model(array(
             'servers_model',
             'clients_model',
+            'server_applications_model' => 'sa_model',
+            'applications_model',
         ));
 
         // set constants
@@ -135,11 +137,6 @@ class Servers extends Admin_Controller
      */
     public function add()
     {
-        // print_r($this->clients_model->dropdown('id', 'nama')); die();
-        // print_r(array_merge($this->clients_model->dropdown('id', 'nama'), array( 'N/A'))); die();
-        // print_r(array_merge( array( 'N/A'),$this->clients_model->dropdown('id', 'nama'))); die();
-        // print_r((array)'Select the data' + $this->clients_model->dropdown('id', 'nama')); die();
-
         // validators
         $this->form_validators();
 
@@ -190,6 +187,10 @@ class Servers extends Admin_Controller
             'this_url'           => THIS_URL,
             'title'              => $this->includes['page_header'],
             'cancel_url'         => $this->_redirect_url,
+            'app_add_url'        => base_url('admin/master/servers/add_apps/'),
+            'app_edit_url'       => base_url('admin/master/servers/edit_apps/'),
+            'app_delete_url'     => base_url('admin/master/server_apps/delete/'),
+            'redirect_param'     => '?redirect=' . urlencode(current_url()),
             'dt'                 => empty($this->input->post()) ? null : $this->input->post(),
             'dt_id'              => null,
             'dt_ports'           => $ports,
@@ -197,6 +198,7 @@ class Servers extends Admin_Controller
             'dt_users'           => $users,
             'dt_owner'           => $this->ref_owner(),
             'dt_owned_by_client' => (array) 'N/A'+$this->clients_model->dropdown('id', 'nama'),
+            'dt_applications'    => array(),
         );
 
         // load views
@@ -217,11 +219,27 @@ class Servers extends Admin_Controller
         }
 
         // get the data
-        $dt = $this->servers_model->as_array()->get($id);
+        $dt = $this->servers_model->with('server_applications')->as_array()->get($id);
 
         // if empty results, return to list
         if (!$dt) {
             redirect($this->_redirect_url);
+        }
+
+        $applications = array();
+        if (count($dt['server_applications'])) {
+            foreach ($dt['server_applications'] as $index => $row) {
+                foreach ($row as $key => $value) {
+                    $applications[$index][$key] = $value;
+                }
+
+                $app_det = $this->applications_model->get($row->application_id);
+
+                $applications[$index]['app_name']           = $app_det->nama;
+                $applications[$index]['app_kategori']       = $app_det->kategori;
+                $applications[$index]['app_jenis']          = $app_det->jenis;
+                $applications[$index]['app_bahasa_program'] = $app_det->bahasa_program;
+            }
         }
 
         $ports = $this->ref_ports();
@@ -286,6 +304,10 @@ class Servers extends Admin_Controller
             'this_url'           => THIS_URL,
             'title'              => $this->includes['page_header'],
             'cancel_url'         => $this->_redirect_url,
+            'app_add_url'        => base_url('admin/master/servers/add_apps/' . $id),
+            'app_edit_url'       => base_url('admin/master/servers/edit_apps/'),
+            'app_delete_url'     => base_url('admin/master/server_apps/delete/'),
+            'redirect_param'     => '?redirect=' . urlencode(current_url()),
             'dt'                 => empty($this->input->post()) ? $dt : $this->input->post(),
             'dt_id'              => $id,
             'dt_ports'           => $ports,
@@ -293,11 +315,28 @@ class Servers extends Admin_Controller
             'dt_users'           => $users,
             'dt_owner'           => $this->ref_owner(),
             'dt_owned_by_client' => (array) 'N/A'+$this->clients_model->dropdown('id', 'nama'),
+            'dt_applications'    => $applications,
         );
 
         // load views
         $data['content'] = $this->load->view('admin/master/servers/form', $content_data, true);
         $this->load->view($this->template, $data);
+    }
+
+    public function add_apps($server_id)
+    {
+        $this->session->set_userdata(array(
+            REFERRER => $this->input->get('redirect'),
+        ));
+        redirect(base_url('admin/master/server_apps/add/' . $server_id));
+    }
+
+    public function edit_apps($server_apps_id)
+    {
+        $this->session->set_userdata(array(
+            REFERRER => $this->input->get('redirect'),
+        ));
+        redirect(base_url('admin/master/server_apps/edit/' . $server_apps_id));
     }
 
     /**
@@ -417,9 +456,9 @@ class Servers extends Admin_Controller
         $key_values = array();
         $key_fields = array('port', 'keterangan');
         if (is_array($data) and count($data)) {
-            foreach ($data as $index => $rows) {
+            foreach ($data as $index => $row) {
                 foreach ($key_fields as $key) {
-                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                    $key_values[$index][$key] = isset($row[$key]) ? $row[$key] : null;
                 }
             }
         } else {
@@ -435,9 +474,9 @@ class Servers extends Admin_Controller
         $key_values = array();
         $key_fields = array('interface', 'ip', 'keterangan');
         if (is_array($data) and count($data)) {
-            foreach ($data as $index => $rows) {
+            foreach ($data as $index => $row) {
                 foreach ($key_fields as $key) {
-                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                    $key_values[$index][$key] = isset($row[$key]) ? $row[$key] : null;
                 }
             }
         } else {
@@ -453,9 +492,9 @@ class Servers extends Admin_Controller
         $key_values = array();
         $key_fields = array('user', 'password');
         if (is_array($data) and count($data)) {
-            foreach ($data as $index => $rows) {
+            foreach ($data as $index => $row) {
                 foreach ($key_fields as $key) {
-                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                    $key_values[$index][$key] = isset($row[$key]) ? $row[$key] : null;
                 }
             }
         } else {
@@ -488,10 +527,9 @@ class Servers extends Admin_Controller
      */
     public function _check_ip($data)
     {
-        print_r($data); die();
         if (is_array($data) and count($data)) {
-            foreach ($data as $rows) {
-                if (isset($rows['ip']) && filter_var($rows['ip'], FILTER_VALIDATE_IP) == false) {
+            foreach ($data as $row) {
+                if (isset($row['ip']) && filter_var($row['ip'], FILTER_VALIDATE_IP) == false) {
                     $this->form_validation->set_message('title_validate', 'The Title field is Required.');
                     return false;
                 }

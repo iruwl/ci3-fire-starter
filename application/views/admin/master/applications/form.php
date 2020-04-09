@@ -53,18 +53,18 @@
                 <table class="table" id="dokumen_fields">
                     <tr>
                         <!--<th style="width: 120px;">Tanggal</th>-->
-                        <th>File Name</th>
-                        <!--<th>File Path</th>-->
-                        <th>Keterangan</th>
-                        <th style="width: 50px;"><button type="button" class="btn btn-default btn-sm" id="add_dokumen" tabindex="-1"><span class="glyphicon glyphicon-plus"></span></button></th>
+                        <th style="vertical-align: middle;">File Name</th>
+                        <!--<th style="vertical-align: middle;">File Path</th>-->
+                        <th style="vertical-align: middle;">Keterangan</th>
+                        <th style="vertical-align: middle; width: 50px;"><button type="button" class="btn btn-default btn-sm" id="add_dokumen" tabindex="-1"><span class="glyphicon glyphicon-plus"></span></button></th>
                     </tr>
-                    <?php foreach ($dt_dokumen as $index => $rows): ?>
+                    <?php foreach ($dt_dokumen as $index => $row): ?>
                         <tr class="dokumen-row" id="<?php echo $index; ?>">
                             <td>
                                 <div class="input-group">
-                                    <?php echo form_input(array('name' => "dokumen[$index][filename]", 'value' => $rows['filename'], 'class' => 'form-control', 'readonly' => 'true', 'style' => 'background-color: transparent;')); ?>
-                                    <?php echo form_input(array('name' => "dokumen[$index][tanggal]", 'value' => isset($rows['tanggal']) ? $rows['tanggal'] : date('d-m-Y') , 'class' => 'form-control', 'style' => 'display: none;')); ?>
-                                    <?php echo form_input(array('name' => "dokumen[$index][filepath]", 'value' => $rows['filepath'], 'class' => 'form-control', 'style'=>'display: none;')); ?>
+                                    <?php echo form_input(array('name' => "dokumen[$index][filename]", 'value' => $row['filename'], 'class' => 'form-control', 'readonly' => 'true', 'style' => 'background-color: transparent;')); ?>
+                                    <?php echo form_input(array('name' => "dokumen[$index][tanggal]", 'value' => isset($row['tanggal']) ? $row['tanggal'] : date('d-m-Y') , 'class' => 'form-control', 'style' => 'display: none;')); ?>
+                                    <?php echo form_input(array('name' => "dokumen[$index][filepath]", 'value' => $row['filepath'], 'class' => 'form-control', 'style'=>'display: none;')); ?>
                                     <span class="input-group-btn">
                                         <label class="btn btn-default"><span class="glyphicon glyphicon-folder-open"></span>
                                             <!--<input type="file" style="display: none;" onchange="$('input[name^=\'dokumen[0][filename]\']').val(this.files[0].name)"> -->
@@ -73,7 +73,7 @@
                                     </span>
                                 </div>
                             </td>
-                            <td><?php echo form_input(array('name' => "dokumen[$index][keterangan]", 'value' => $rows['keterangan'], 'class' => 'form-control')); ?></td>
+                            <td><?php echo form_input(array('name' => "dokumen[$index][keterangan]", 'value' => $row['keterangan'], 'class' => 'form-control')); ?></td>
                             <td><button type="button" class="btn btn-default btn-sm btn_remove_dokumen" id="<?php echo $index; ?>" tabindex="-1"><span class="glyphicon glyphicon-minus"></span></button></td>
                         </tr>
                     <?php endforeach;?>

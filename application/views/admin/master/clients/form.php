@@ -4,6 +4,30 @@
     <h2 style="display: inline;"><?php echo $title; ?></h2>
 </div>
 
+<button type="button" id="klik" class="btn btn-primary">Klik</button>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <?php echo form_open('', array('role' => 'form')); ?>
 
     <?php // hidden id ?>
@@ -46,7 +70,35 @@
         </div>
 
         <div class="col-sm-6">
-
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Kontak</h3>
+                </div>
+                <?php
+                    // template
+                    echo form_dropdown("select_contacts", $dt_contacts['ref'], null, 'class="form-control" style="display: none;"');
+                ?>
+                <table class="table" id="contact_fields">
+                    <tr>
+                        <th style="vertical-align: middle;">Nama</th>
+                        <!--<th style="vertical-align: middle;">Email</th>-->
+                        <th style="vertical-align: middle; width: 150px;">HP</th>
+                        <th style="vertical-align: middle; width: 50px;">
+                            <button type="button" class="btn btn-default btn-sm" id="add_contact" tabindex="-1"><span class="glyphicon glyphicon-plus"></span></button>
+                        </th>
+                    </tr>
+                    <?php foreach ($dt_contacts['data'] as $index => $row): ?>
+                        <tr class="contact-row" id="<?php echo $index; ?>">
+                            <td>
+                                <?php echo form_dropdown("contacts[$index]", $dt_contacts['ref'], (isset($row['id']) ? $row['id'] : null), 'class="form-control select2"'); ?>
+                            </td>
+                            <!--<td><?php //echo form_input(array('value' => (isset($row['email']) ? $row['email'] : null), 'class' => 'form-control', 'readonly' => 'readonly')); ?></td>-->
+                            <td><?php echo form_input(array('value' => (isset($row['hp1']) ? $row['hp1'] : null), 'class' => 'form-control', 'readonly' => 'readonly')); ?></td>
+                            <td><button type="button" class="btn btn-default btn-sm btn_remove_contact" id="<?php echo $index; ?>" tabindex="-1"><span class="glyphicon glyphicon-minus"></span></button></td>
+                        </tr>
+                    <?php endforeach;?>
+                </table>
+            </div>
         </div>
     </div>
 

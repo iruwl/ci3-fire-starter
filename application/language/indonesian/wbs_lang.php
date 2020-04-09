@@ -4,10 +4,10 @@
  */
 
 // Titles
-$lang['wbs title list']   = "Work Packages";
-$lang['wbs title add']    = "Tambah Work Package";
-$lang['wbs title edit']   = "Edit Work Package";
-$lang['wbs title delete'] = "Konfirmasi Hapus Work Package";
+$lang['wbs title list']   = "WBS";
+$lang['wbs title add']    = "Tambah WBS";
+$lang['wbs title edit']   = "Edit WBS";
+$lang['wbs title delete'] = "Konfirmasi Hapus WBS";
 
 // Table Columns
 $lang['wbs col id']              = "ID";

@@ -8,7 +8,7 @@
         <div class="col-md-6">
             <div class="btn-group pull-right">
                 <a href="<?php echo $this_url; ?>/add" title="<?php echo lang('global tooltip add'); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> <?php echo lang('global button add'); ?></a>
-                <!-- <a href="<?php echo $this_url; ?>/export?sort=<?php echo $sort; ?>&dir=<?php echo $dir; ?><?php echo $filter; ?>" title="<?php echo lang('global tooltip csv_export'); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-export"></span> CSV</a> -->
+                <a href="<?php echo $this_url; ?>/export?sort=<?php echo $sort; ?>&dir=<?php echo $dir; ?><?php echo $filter; ?>" title="<?php echo lang('global tooltip csv_export'); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-export"></span> CSV</a>
             </div>
         </div>
     </div>
@@ -24,20 +24,24 @@
                     No.
                 </td>
                 <td>
-                    <a href="<?php echo current_url(); ?>?sort=nama&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('projects col nama'); ?></a>
+                    <a href="<?php echo current_url(); ?>?sort=nama&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col nama'); ?></a>
                     <?php if ($sort == 'nama'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
                 </td>
                 <td>
-                    <a href="<?php echo current_url(); ?>?sort=deskripsi&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('projects col deskripsi'); ?></a>
-                    <?php if ($sort == 'deskripsi'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
+                    <a href="<?php echo current_url(); ?>?sort=os&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col os'); ?></a>
+                    <?php if ($sort == 'os'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
                 </td>
                 <td>
-                    <a href="<?php echo current_url(); ?>?sort=kategori&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('projects col kategori'); ?></a>
-                    <?php if ($sort == 'kategori'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
+                    <a href="<?php echo current_url(); ?>?sort=processor&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col processor'); ?></a>
+                    <?php if ($sort == 'processor'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
                 </td>
                 <td>
-                    <a href="<?php echo current_url(); ?>?sort=status&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('projects col status'); ?></a>
-                    <?php if ($sort == 'status'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
+                    <a href="<?php echo current_url(); ?>?sort=memory&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col memory'); ?></a>
+                    <?php if ($sort == 'memory'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
+                </td>
+                <td>
+                    <a href="<?php echo current_url(); ?>?sort=storage&dir=<?php echo (($dir == 'asc') ? 'desc' : 'asc'); ?>&limit=<?php echo $limit; ?>&offset=<?php echo $offset; ?><?php echo $filter; ?>"><?php echo lang('servers col storage'); ?></a>
+                    <?php if ($sort == 'storage'): ?><span class="glyphicon glyphicon-arrow-<?php echo (($dir == 'asc') ? 'up' : 'down'); ?>"></span><?php endif;?>
                 </td>
                 <td class="pull-right">
                     <?php echo lang('global col actions'); ?>
@@ -52,21 +56,24 @@
                             &nbsp;
                         </td>
                         <td<?php echo ((isset($filters['nama'])) ? ' class="has-success"' : ''); ?>>
-                            <?php echo form_input(array('name' => 'nama', 'id' => 'nama', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('projects input nama'), 'value' => set_value('nama', ((isset($filters['nama'])) ? $filters['nama'] : '')))); ?>
+                            <?php echo form_input(array('name' => 'nama', 'id' => 'nama', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input nama'), 'value' => set_value('nama', ((isset($filters['nama'])) ? $filters['nama'] : '')))); ?>
                         </td>
-                        <td<?php echo ((isset($filters['deskripsi'])) ? ' class="has-success"' : ''); ?>>
-                            <?php echo form_input(array('name' => 'deskripsi', 'id' => 'deskripsi', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('projects input deskripsi'), 'value' => set_value('deskripsi', ((isset($filters['deskripsi'])) ? $filters['deskripsi'] : '')))); ?>
+                        <td<?php echo ((isset($filters['os'])) ? ' class="has-success"' : ''); ?>>
+                            <?php echo form_input(array('name' => 'os', 'id' => 'os', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input processor'), 'value' => set_value('processor', ((isset($filters['processor'])) ? $filters['processor'] : '')))); ?>
                         </td>
-                        <td<?php echo ((isset($filters['kategori'])) ? ' class="has-success"' : ''); ?>>
-                            <?php echo form_input(array('name' => 'kategori', 'id' => 'kategori', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('projects input kategori'), 'value' => set_value('kategori', ((isset($filters['kategori'])) ? $filters['kategori'] : '')))); ?>
+                        <td<?php echo ((isset($filters['processor'])) ? ' class="has-success"' : ''); ?>>
+                            <?php echo form_input(array('name' => 'processor', 'id' => 'processor', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input processor'), 'value' => set_value('processor', ((isset($filters['processor'])) ? $filters['processor'] : '')))); ?>
                         </td>
-                        <td<?php echo ((isset($filters['status'])) ? ' class="has-success"' : ''); ?>>
-                            <?php echo form_input(array('name' => 'status', 'id' => 'status', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('projects input status'), 'value' => set_value('status', ((isset($filters['status'])) ? $filters['status'] : '')))); ?>
+                        <td<?php echo ((isset($filters['memory'])) ? ' class="has-success"' : ''); ?>>
+                            <?php echo form_input(array('name' => 'memory', 'id' => 'memory', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input memory'), 'value' => set_value('memory', ((isset($filters['memory'])) ? $filters['memory'] : '')))); ?>
+                        </td>
+                        <td<?php echo ((isset($filters['storage'])) ? ' class="has-success"' : ''); ?>>
+                            <?php echo form_input(array('name' => 'storage', 'id' => 'storage', 'style' => 'height: unset; padding: 3px 3px; border-radius: 2px;', 'class' => 'form-control', 'placeholder' => lang('servers input storage'), 'value' => set_value('storage', ((isset($filters['storage'])) ? $filters['storage'] : '')))); ?>
                         </td>
                         <td colspan="3">
                             <div class="text-right">
                                 <button type="submit" name="submit" value="<?php echo lang('global button filter'); ?>" class="btn btn-default btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-filter"></span></button>
-                                <a href="<?php echo $this_url; ?>" class="btn btn-default btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter_reset'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-refresh"></span></a>
+                                <a href="<?php echo $this_url; ?>" class="btn btn-default btn-sm tooltips" data-toggle="tooltip" title="<?php echo lang('global tooltip filter_reset'); ?>" style="height: unset; line-height: 1.3; border-radius: 2px;"><span class="glyphicon glyphicon-refresh"></span>\</a>
                             </div>
                         </td>
                     <?php echo form_close(); ?>
@@ -86,30 +93,21 @@
                         <td<?php echo (($sort == 'nama') ? ' class="sorted"' : ''); ?>>
                             <?php echo $row['nama']; ?>
                         </td>
-                        <td<?php echo (($sort == 'deskripsi') ? ' class="sorted"' : ''); ?>>
-                            <?php echo $row['deskripsi']; ?>
+                        <td<?php echo (($sort == 'os') ? ' class="sorted"' : ''); ?>>
+                            <?php echo $row['os']; ?>
                         </td>
-                        <td<?php echo (($sort == 'kategori') ? ' class="sorted"' : ''); ?>>
-                            <?php echo $row['kategori']; ?>
+                        <td<?php echo (($sort == 'processor') ? ' class="sorted"' : ''); ?>>
+                            <?php echo $row['processor']; ?>
                         </td>
-                        <td<?php echo (($sort == 'status') ? ' class="sorted"' : ''); ?>>
-                            <?php echo $row['status']; ?>
+                        <td<?php echo (($sort == 'memory') ? ' class="sorted"' : ''); ?>>
+                            <?php echo $row['memory']; ?>
+                        </td>
+                        <td<?php echo (($sort == 'storage') ? ' class="sorted"' : ''); ?>>
+                            <?php echo $row['storage']; ?>
                         </td>
                         <td>
                             <div class="text-right">
-                                    <a href="<?php echo $this_url; ?>/<?php echo $row['id']; ?>/wbs"
-                                        class="btn btn-primary btn-xs"
-                                        title="<?php echo lang('global button tasks'); ?>"
-                                        style="border-radius: 2px;">
-                                        <span class="glyphicon glyphicon-tasks"></span>
-                                    </a>
                                 <div class="btn-group">
-                                    <a href="<?php echo $this_url; ?>/edit/<?php echo $row['id']; ?>"
-                                        class="btn btn-warning btn-xs"
-                                        title="<?php echo lang('global button edit'); ?>"
-                                        style="border-radius: 2px;">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
                                     <a href="javascript:void(0)"
                                         class="btn btn-danger btn-xs"
                                         title="<?php echo lang('global button delete'); ?>"
@@ -120,6 +118,12 @@
                                             })
                                         }">
                                         <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                    <a href="<?php echo $this_url; ?>/edit/<?php echo $row['id']; ?>"
+                                        class="btn btn-warning btn-xs"
+                                        title="<?php echo lang('global button edit'); ?>"
+                                        style="border-radius: 2px;">
+                                        <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </div>
                             </div>

@@ -41,7 +41,7 @@ class Contacts_model extends MY_Model
     public function email_exists($email)
     {
         $query = $this->_database->get_where($this->_table, array(
-            'email'    => $email,
+            'email'   => $email,
             'deleted' => '0',
         ));
 

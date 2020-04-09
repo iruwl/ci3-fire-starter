@@ -56,8 +56,6 @@ class Wbs extends Admin_Controller
      */
     public function index($project_id = null)
     {
-        // print_r($project_id); die();
-
         // make sure we have a numeric id
         // if (is_null($project_id) or !is_numeric($project_id)) {
         //     show_404();

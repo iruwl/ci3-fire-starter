@@ -406,9 +406,9 @@ class Applications extends Admin_Controller
         $key_values = array();
         $key_fields = array('tanggal', 'filename', 'filepath', 'keterangan');
         if (is_array($data) and count($data)) {
-            foreach ($data as $index => $rows) {
+            foreach ($data as $index => $row) {
                 foreach ($key_fields as $key) {
-                    $key_values[$index][$key] = isset($rows[$key]) ? $rows[$key] : null;
+                    $key_values[$index][$key] = isset($row[$key]) ? $row[$key] : null;
                 }
             }
         } else {

@@ -85,15 +85,17 @@ class MY_Controller extends CI_Controller {
         $this
             ->add_external_css(
                 array(
-                    "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
-                    "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css",
+                    "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css",
+                    "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.css",
+                    "//cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.9/css/bootstrap-dialog.css",
                     "//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
-                    base_url("/{$this->settings->themes_folder}/core/css/core.css")
+                    base_url("/{$this->settings->themes_folder}/core/css/core.css"),
                 ))
             ->add_external_js(
                 array(
                     "//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js",
-                    "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                    "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
+                    "//cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.9/js/bootstrap-dialog.min.js"
                 ));
 
 		$core_js = $this->jsi18n->translate("/{$this->settings->themes_folder}/core/js/core_i18n.js");

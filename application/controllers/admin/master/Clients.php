@@ -24,6 +24,8 @@ class Clients extends Admin_Controller
         // load model
         $this->load->model(array(
             'clients_model',
+            'contacts_model',
+            'client_contacts_model' => 'cc_model',
         ));
 
         // set constants
@@ -40,6 +42,9 @@ class Clients extends Admin_Controller
         } else {
             $this->_redirect_url = THIS_URL;
         }
+
+        // add js
+        $this->add_js_theme("clients_i18n.js");
     }
 
     /**************************************************************************************
@@ -141,6 +146,16 @@ class Clients extends Admin_Controller
             $saved = $this->clients_model->do_save($this->input->post(), $active_user['id']);
 
             if ($saved) {
+                $this->cc_model->delete_by(array('client_id' => $saved));
+                foreach (array_unique($this->input->post('contacts')) as $contact_id) {
+                    if ($contact_id) {
+                        $this->cc_model->insert(array(
+                            'client_id'  => $saved,
+                            'contact_id' => $contact_id,
+                        ));
+                    }
+                }
+
                 $this->session->set_flashdata('message', sprintf(lang('global msg add_success'), $this->input->post('nama')));
             } else {
                 $this->session->set_flashdata('error', sprintf(lang('global error add_failed'), $this->input->post('nama')));
@@ -155,6 +170,11 @@ class Clients extends Admin_Controller
 
         $data = $this->includes;
 
+        $contacts = $this->ref_contacts();
+        if (!empty($this->input->post())) {
+            $contacts = $this->input->post('contacts');
+        }
+
         // set content data
         $content_data = array(
             'this_url'    => THIS_URL,
@@ -164,6 +184,11 @@ class Clients extends Admin_Controller
             'dt_id'       => null,
             'dt_kategori' => $this->ref_kategori(),
             'dt_status'   => $this->ref_status(),
+            'dt_status'   => $this->ref_status(),
+            'dt_contacts' => array(
+                'ref'  => array('' => 'None') + $this->contacts_model->dropdown('id', 'nama'),
+                'data' => $contacts,
+            ),
         );
 
         // load views
@@ -191,6 +216,11 @@ class Clients extends Admin_Controller
             redirect($this->_redirect_url);
         }
 
+        $contacts = $this->ref_contacts($dt['id']);
+        if (!empty($this->input->post())) {
+            $contacts = $this->input->post('contacts');
+        }
+
         // validators
         $this->form_validators($dt, false);
 
@@ -201,6 +231,16 @@ class Clients extends Admin_Controller
             $saved = $this->clients_model->do_save($this->input->post(), $active_user['id']);
 
             if ($saved) {
+                $this->cc_model->delete_by(array('client_id' => $id));
+                foreach (array_unique($this->input->post('contacts')) as $contact_id) {
+                    if ($contact_id) {
+                        $this->cc_model->insert(array(
+                            'client_id'  => $id,
+                            'contact_id' => $contact_id,
+                        ));
+                    }
+                }
+
                 $this->session->set_flashdata('message', sprintf(lang('global msg edit_success'), $this->input->post('nama')));
             } else {
                 $this->session->set_flashdata('error', sprintf(lang('global error edit_failed'), $this->input->post('nama')));
@@ -224,6 +264,10 @@ class Clients extends Admin_Controller
             'dt_id'       => $id,
             'dt_kategori' => $this->ref_kategori(),
             'dt_status'   => $this->ref_status(),
+            'dt_contacts' => array(
+                'ref'  => array('' => 'None') + $this->contacts_model->dropdown('id', 'nama'),
+                'data' => $contacts,
+            ),
         );
 
         // load views
@@ -247,6 +291,8 @@ class Clients extends Admin_Controller
                 if ($dt) {
                     $deleted = $this->clients_model->do_delete($dt, $active_user['id']);
                     if ($deleted) {
+                        $this->cc_model->delete_by(array('client_id' => $id));
+
                         $this->session->set_flashdata('message', sprintf(lang('global msg delete_success'), $dt['nama']));
                         $this->session->keep_flashdata('message');
                     } else {
@@ -342,6 +388,31 @@ class Clients extends Admin_Controller
             'Supported'   => 'Supported',
             'Unsupported' => 'Unsupported',
         );
+    }
+
+    /**
+     * Get contacts of client
+     */
+    public function ref_contacts($client_id = null)
+    {
+        $key_values = array();
+        $key_fields = array('id', 'nama', 'email', 'hp1');
+        if ($client_id) {
+            $cc = $this->cc_model->with('contacts')->get_many_by(array('client_id' => $client_id));
+            foreach ($cc as $index => $row) {
+                foreach ($key_fields as $key) {
+                    $contacts                 = $row->contacts;
+                    $key_values[$index][$key] = isset($contacts->$key) ? $contacts->$key : null;
+                }
+            }
+        }
+
+        if (!count($key_values)) {
+            foreach ($key_fields as $key) {
+                $key_values[0][$key] = null;
+            }
+        }
+        return $key_values;
     }
 
     /**

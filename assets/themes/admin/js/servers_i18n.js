@@ -12,7 +12,7 @@ $(document).ready(function() {
         );
     });
     $(document).on('click', '.btn_remove_port', function() {
-      if(confirm("Yakin akan menghapus?")) {
+      if(confirm("Yakin akan menghapus item ini?")) {
         var button_id = $(this).attr("id");
         $('.port-row[id=' + button_id + ']').remove();
       }
@@ -33,7 +33,7 @@ $(document).ready(function() {
         );
     });
     $(document).on('click', '.btn_remove_network', function() {
-      if(confirm("Yakin akan menghapus?")) {
+      if(confirm("Yakin akan menghapus item ini?")) {
         var button_id = $(this).attr("id");
         $('.network-row[id=' + button_id + ']').remove();
       }
@@ -53,7 +53,7 @@ $(document).ready(function() {
         );
     });
     $(document).on('click', '.btn_remove_user', function() {
-      if(confirm("Yakin akan menghapus?")) {
+      if(confirm("Yakin akan menghapus item ini?")) {
         var button_id = $(this).attr("id");
         $('.user-row[id=' + button_id + ']').remove();
       }

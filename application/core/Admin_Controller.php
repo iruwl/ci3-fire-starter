@@ -38,9 +38,16 @@ class Admin_Controller extends MY_Controller {
         $this->settings->theme = strtolower($this->config->item('admin_theme'));
 
         // set up global header data
+        // $this
+        //     ->add_css_theme("{$this->settings->theme}.css, summernote-bs3.css, select2.min.css, select2-bootstrap.min.css")
+        //     ->add_js_theme("summernote.min.js, select2.full.min.js" )
+        //     ->add_js_theme("{$this->settings->theme}_i18n.js", TRUE);
+
+        /** summernote-bs3.css bentrok modal dialognya */
+
         $this
-            ->add_css_theme("{$this->settings->theme}.css, summernote-bs3.css, select2.min.css, select2-bootstrap.min.css")
-            ->add_js_theme("summernote.min.js, select2.full.min.js" )
+            ->add_css_theme("{$this->settings->theme}.css, select2.min.css, select2-bootstrap.min.css")
+            ->add_js_theme("select2.full.min.js" )
             ->add_js_theme("{$this->settings->theme}_i18n.js", TRUE);
 
         // declare main template
