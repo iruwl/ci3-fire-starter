@@ -81,6 +81,9 @@ class MY_Controller extends CI_Controller {
         // load the core language file
         $this->lang->load('core');
 
+        // load minify library
+        $this->load->library('MinifyJS');
+
         // set global header data - can be merged with or overwritten in controllers
         $this
             ->add_external_css(
@@ -100,6 +103,7 @@ class MY_Controller extends CI_Controller {
 
 		$core_js = $this->jsi18n->translate("/{$this->settings->themes_folder}/core/js/core_i18n.js");
 		$core_js = str_replace("<<base_url>>", base_url(), $core_js);
+        $core_js = (ENVIRONMENT != 'development' ? $this->minifyjs->min($core_js) : $core_js);
 
         $this->includes['js_files_i18n'] = array(
             $core_js
@@ -385,8 +389,15 @@ class MY_Controller extends CI_Controller {
             // go to next when passing empty space
             if (empty($js)) continue;
 
+            // minifyjs
+            if (ENVIRONMENT != 'development') {
+                $minifyjs = $this->minifyjs->min($this->jsi18n->translate("/{$this->settings->themes_folder}/{$this->settings->theme}/js/{$js}"));
+            } else {
+                $minifyjs = $this->jsi18n->translate("/{$this->settings->themes_folder}/{$this->settings->theme}/js/{$js}");
+            }
+
             // using sha1($js) as a key to prevent duplicate js to be included
-            $this->includes['js_files_i18n'][sha1($js)] = $this->jsi18n->translate("/{$this->settings->themes_folder}/{$this->settings->theme}/js/{$js}");
+            $this->includes['js_files_i18n'][sha1($js)] = $minifyjs;
         }
 
         return $this;

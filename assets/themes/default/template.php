@@ -154,13 +154,16 @@
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
-    <?php if (isset($js_files_i18n) && is_array($js_files_i18n)) : ?>
-        <?php foreach ($js_files_i18n as $js) : ?>
-            <?php if ( ! is_null($js)) : ?>
-                <?php echo "\n"; ?><script type="text/javascript"><?php echo "\n" . $js . "\n"; ?></script><?php echo "\n"; ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
+    <?php if (isset($js_files_i18n) && is_array($js_files_i18n)): ?>
+        <script type="text/javascript">
+        <?php foreach ($js_files_i18n as $js): ?>
+            <?php if (!is_null($js)): ?>
+                <?php echo trim($js); ?>
+                <?php echo ";\n"; ?>
+            <?php endif;?>
+        <?php endforeach;?>
+        </script>
+    <?php endif;?>
 
 </body>
 </html>
